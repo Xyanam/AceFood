@@ -1,0 +1,28 @@
+.container {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+}
+.banner {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url("../assets/img/mainbanner.png");
+  background-repeat: no-repeat;
+  object-fit: cover;
+  height: 800px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.textBanner {
+  color: white;
+  font-size: 75px;
+  margin-right: 100px;
+  text-align: center;
+}
+.title {
+  text-align: center;
+  font-size: 35px;
+  color: #372626;
+}
