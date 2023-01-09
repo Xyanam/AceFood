@@ -5,16 +5,16 @@ const Header: FC = () => {
   return (
     <header className={classes.header}>
       <nav className={classes.nav}>
-        <div className={classes.logo}>
+        <Link to="/" className={classes.logo}>
           <h1>
             Ace
             <br />
             Food
           </h1>
-        </div>
+        </Link>
         <div className={classes.navigation}>
           <div className={classes.navItem}>
-            <Link to="/">Рецепты</Link>
+            <Link to="/recipes">Рецепты</Link>
           </div>
           <div className={classes.navItem}>
             <Link to="/">Добавить рецепт</Link>

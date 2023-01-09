@@ -1,17 +1,21 @@
 import React, { FC } from "react";
 import classes from "./BlockFood.module.css";
-import eda from "../../assets/img/eda.png";
+import { recipe } from "../../types/TRecipe";
 
-const BlockFood: FC = () => {
+type BlockFoodProps = {
+  recipe: recipe;
+};
+
+const BlockFood: FC<BlockFoodProps> = ({ recipe }) => {
   return (
     <div className={classes.block}>
-      <img src={eda} alt="food" className={classes.img} />
+      <img src={recipe.image} alt="food" className={classes.img} />
       <div className={classes.infoFood}>
         <div className={classes.titleBlock}>
-          <h1 className={classes.title}>Спагетти карбонара с красным луком</h1>
+          <h1 className={classes.title}>{recipe.title}</h1>
         </div>
         <div>
-          <span className={classes.likes}>120</span>
+          <span className={classes.likes}>{recipe.rating}</span>
         </div>
       </div>
     </div>

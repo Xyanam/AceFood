@@ -13,6 +13,10 @@
   align-items: center;
   justify-content: space-between;
 }
+.logo {
+  text-decoration: none;
+  color: black;
+}
 .logo h1 {
   text-align: center;
 }
