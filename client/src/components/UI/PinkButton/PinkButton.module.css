@@ -1,0 +1,12 @@
+.registerBtn {
+  cursor: pointer;
+  font-family: "Multiround";
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e97c94;
+  border-radius: 50px;
+  border: none;
+  margin-top: 15px;
+}
