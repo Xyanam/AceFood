@@ -22,7 +22,7 @@ const PopularFood: FC = () => {
           <h1>Загрузка...</h1>
         ) : (
           recipes.map((recipe: recipe) => (
-            <BlockFood key={recipe.id} recipe={recipe} />
+            <BlockFood key={recipe.recipe_id} recipe={recipe} />
           ))
         )}
       </div>

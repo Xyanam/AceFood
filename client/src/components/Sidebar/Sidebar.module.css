@@ -24,10 +24,13 @@
   width: 100%;
 }
 .calories {
-  max-width: 50px;
+  max-width: 60px;
   height: 30px;
   width: 100%;
   font-family: "Multiround";
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 0 5px;
 }
 .inputsCalories {
   max-width: 400px;
@@ -36,7 +39,7 @@
   justify-content: space-around;
 }
 .inputRange {
-  margin-top: 10px;
+  margin: 10px 0;
   max-width: 250px;
   width: 100%;
 }

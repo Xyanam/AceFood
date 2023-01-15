@@ -8,7 +8,7 @@ const MainPage: FC = () => {
       <div className={classes.banner}>
         <h1 className={classes.textBanner}>
           Разнообразные
-          <br /> рецепты со <br /> всего мира
+          <br /> рецепты <br /> со всего мира
         </h1>
       </div>
       <h1 className={classes.title}>Популярные блюда</h1>

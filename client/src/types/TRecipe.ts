@@ -1,5 +1,5 @@
 export type recipe = {
-  id: number;
+  recipe_id: number;
   title: string;
   text: string;
   calories: number;

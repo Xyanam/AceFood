@@ -4,11 +4,29 @@ import classes from "./PinkButton.module.css";
 type PinkButtonProps = {
   children: string;
   onClick?: () => void;
+  width?: string;
+  height?: string;
+  fontSize?: string;
 };
 
-const PinkButton: FC<PinkButtonProps> = ({ children, onClick }) => {
+const PinkButton: FC<PinkButtonProps> = ({
+  children,
+  onClick,
+  width,
+  height,
+  fontSize,
+}) => {
   return (
-    <button onClick={onClick} className={classes.registerBtn}>
+    <button
+      style={{
+        maxWidth: width,
+        width: "100%",
+        height: height,
+        fontSize: fontSize,
+      }}
+      onClick={onClick}
+      className={classes.registerBtn}
+    >
       <p>{children}</p>
     </button>
   );

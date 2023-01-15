@@ -44,7 +44,7 @@ const Sidebar: FC = () => {
             <input type="range" className={classes.inputRange} />
           </div>
         </div>
-        <PinkButton>Применить</PinkButton>
+        <PinkButton width="200px">Применить</PinkButton>
       </div>
     </div>
   );
