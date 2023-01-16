@@ -1,19 +1,35 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import classes from "./Sidebar.module.css";
 import Select from "react-select";
 import PinkButton from "../UI/PinkButton/PinkButton";
+import axios from "axios";
+
+type TOptionsCategory = {
+  category_id: string;
+  category: string;
+};
 
 const Sidebar: FC = () => {
+  const [optionsCategoryState, setOptionsCategoryState] = useState<
+    TOptionsCategory[]
+  >([]);
+
+  const optionsCategory = optionsCategoryState.map((option) => ({
+    label: option.category,
+    value: option.category_id,
+  }));
+
+  useEffect(() => {
+    axios
+      .get<TOptionsCategory[]>("http://acefood/acefood.ru/category")
+      .then((response) => setOptionsCategoryState(response.data));
+  }, []);
+
   const optionsKitchen = [
     { value: "Узбекская", label: "Узбекская" },
     { value: "Японская", label: "Японская" },
     { value: "Китайская", label: "Китайская" },
     { value: "Грузинская", label: "Грузинская" },
-  ];
-  const optionsCategory = [
-    { value: "Десерт", label: "Десерт" },
-    { value: "Десерт", label: "Десерт" },
-    { value: "Десерт", label: "Десерт" },
   ];
   return (
     <div className={classes.sidebar}>

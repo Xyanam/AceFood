@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { recipe } from "./../../types/TRecipe";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { recipe } from "../../types/TRecipe";
 
 interface recipeSliceState {
   recipes: recipe[];
@@ -31,7 +31,11 @@ export const fetchRecipes = createAsyncThunk(
 export const recipeSlice = createSlice({
   name: "recipes",
   initialState,
-  reducers: {},
+  reducers: {
+    setRecipes(state, action: PayloadAction<recipe[]>) {
+      state.recipes = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchRecipes.pending, (state) => {
       state.loading = true;
@@ -49,4 +53,5 @@ export const recipeSlice = createSlice({
   },
 });
 
+export const { setRecipes } = recipeSlice.actions;
 export default recipeSlice.reducer;

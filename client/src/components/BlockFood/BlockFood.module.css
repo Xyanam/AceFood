@@ -1,19 +1,19 @@
 .block {
-  width: 400px;
-  height: 350px;
+  width: 350px;
+  height: 300px;
   margin: 10px;
   position: relative;
 }
 .img {
-  width: 400px;
-  height: 350px;
+  width: 350px;
+  height: 300px;
   border-radius: 25px;
 }
 .infoFood {
   position: absolute;
   top: 70%;
-  width: 400px;
-  height: 105px;
+  width: 350px;
+  height: 90px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
   padding: 0 15px;
@@ -22,10 +22,10 @@
   align-items: center;
 }
 .titleBlock {
-  width: 300px;
+  width: 250px;
 }
 .title {
-  font-size: 18px;
+  font-size: 15px;
   color: white;
   letter-spacing: 2px;
   font-weight: 400;
