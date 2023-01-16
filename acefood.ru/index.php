@@ -12,13 +12,28 @@ require 'function.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $q = $_GET['q'];
 
+if (isset($_GET['title'])) {
+    $searchTitle = $_GET['title'];
+};
+
 
 $params = explode('/', $q);
+
+$data = file_get_contents('php://input');
+$dataJson = json_decode($data, true);
 
 if (isset($params[1])) {
     $id = $params[1];
 }
 
-if($method === "GET"){
-    getRecipes($connect);
+if ($method === "GET") {
+    if (isset($id)) {
+        getRecipe($connect, $id);
+    } elseif (isset($searchTitle)) {
+        searchRecipeByTitle($connect, $searchTitle);
+    } elseif ($q === 'category') {
+        getCategories($connect);
+    } else {
+        getRecipes($connect);
+    }
 }
