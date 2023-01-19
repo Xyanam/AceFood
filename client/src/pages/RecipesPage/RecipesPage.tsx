@@ -10,6 +10,7 @@ import axios from "axios";
 
 const RecipesPage: FC = () => {
   const dispatch = useAppDispatch();
+
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const RecipesPage: FC = () => {
     axios
       .get(`http://acefood/acefood.ru/recipes?title=${searchValue}`)
       .then((resp) => dispatch(setRecipes(resp.data)));
-  }, [searchValue]);
+  }, [searchValue, dispatch]);
 
   const { recipes, loading } = useSelector((state: RootState) => state.recipes);
 
@@ -44,9 +45,7 @@ const RecipesPage: FC = () => {
           {loading ? (
             <h1>Загрузка...</h1>
           ) : (
-            recipes.map((recipe: recipe) => (
-              <BlockFood key={recipe.recipe_id} recipe={recipe} />
-            ))
+            recipes.map((recipe: recipe) => <BlockFood key={recipe.recipe_id} recipe={recipe} />)
           )}
         </div>
       </div>

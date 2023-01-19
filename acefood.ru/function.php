@@ -54,3 +54,15 @@ function getCategories($connect)
     }
     echo json_encode($categoriesArray);
 }
+
+function getKitchen($connect)
+{
+    $sql = "SELECT * FROM `kitchen`";
+    $kitchens = mysqli_query($connect, $sql);
+    $kitchensArray = [];
+
+    while ($kitchen = mysqli_fetch_assoc($kitchens)) {
+        $kitchensArray[] = $kitchen;
+    }
+    echo json_encode($kitchensArray);
+}

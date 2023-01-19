@@ -9,28 +9,38 @@ type TOptionsCategory = {
   category: string;
 };
 
+type TOptionsKitchen = {
+  kitchen_id: string;
+  kitchen: string;
+};
+
 const Sidebar: FC = () => {
-  const [optionsCategoryState, setOptionsCategoryState] = useState<
-    TOptionsCategory[]
-  >([]);
+  const [optionsCategoryState, setOptionsCategoryState] = useState<TOptionsCategory[]>([]);
+  const [optionsKitchenState, setOptionsKitchenState] = useState<TOptionsKitchen[]>([]);
+
+  const [categoryValue, setCategoryValue] = useState("");
+  const [kitchenValue, setKitchenValue] = useState("");
+
+  useEffect(() => {
+    axios
+      .get<TOptionsCategory[]>("http://acefood/acefood.ru/category")
+      .then((response) => setOptionsCategoryState(response.data));
+
+    axios
+      .get<TOptionsKitchen[]>("http://acefood/acefood.ru/kitchen")
+      .then((resp) => setOptionsKitchenState(resp.data));
+  }, []);
 
   const optionsCategory = optionsCategoryState.map((option) => ({
     label: option.category,
     value: option.category_id,
   }));
 
-  useEffect(() => {
-    axios
-      .get<TOptionsCategory[]>("http://acefood/acefood.ru/category")
-      .then((response) => setOptionsCategoryState(response.data));
-  }, []);
+  const optionsKitchen = optionsKitchenState.map((kitchen) => ({
+    label: kitchen.kitchen,
+    value: kitchen.kitchen_id,
+  }));
 
-  const optionsKitchen = [
-    { value: "Узбекская", label: "Узбекская" },
-    { value: "Японская", label: "Японская" },
-    { value: "Китайская", label: "Китайская" },
-    { value: "Грузинская", label: "Грузинская" },
-  ];
   return (
     <div className={classes.sidebar}>
       <div className={classes.options}>
@@ -40,6 +50,9 @@ const Sidebar: FC = () => {
             options={optionsKitchen}
             className={classes.select}
             placeholder="Выберите кухню"
+            onChange={(e) => {
+              e !== null && setKitchenValue(e.value);
+            }}
           />
         </div>
         <div className={classes.optionItem}>
@@ -48,6 +61,9 @@ const Sidebar: FC = () => {
             options={optionsCategory}
             className={classes.select}
             placeholder="Выберите категорию"
+            onChange={(e) => {
+              e !== null && setCategoryValue(e.value);
+            }}
           />
         </div>
         <div className={classes.optionItem}>

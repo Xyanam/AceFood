@@ -33,6 +33,8 @@ if ($method === "GET") {
         searchRecipeByTitle($connect, $searchTitle);
     } elseif ($q === 'category') {
         getCategories($connect);
+    } elseif ($q === 'kitchen') {
+        getKitchen($connect);
     } else {
         getRecipes($connect);
     }
