@@ -12,9 +12,7 @@ const MainPage: FC = () => {
         </h1>
       </div>
       <h1 className={classes.title}>Популярные блюда</h1>
-      <div>
-        <PopularFood />
-      </div>
+      <PopularFood />
     </div>
   );
 };

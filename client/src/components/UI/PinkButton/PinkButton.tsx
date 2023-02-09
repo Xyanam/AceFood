@@ -9,13 +9,7 @@ type PinkButtonProps = {
   fontSize?: string;
 };
 
-const PinkButton: FC<PinkButtonProps> = ({
-  children,
-  onClick,
-  width,
-  height,
-  fontSize,
-}) => {
+const PinkButton: FC<PinkButtonProps> = ({ children, onClick, width, height, fontSize }) => {
   return (
     <button
       style={{
@@ -25,9 +19,8 @@ const PinkButton: FC<PinkButtonProps> = ({
         fontSize: fontSize,
       }}
       onClick={onClick}
-      className={classes.registerBtn}
-    >
-      <p>{children}</p>
+      className={classes.btn}>
+      {children}
     </button>
   );
 };

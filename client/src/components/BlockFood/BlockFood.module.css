@@ -1,36 +1,52 @@
 .block {
-  width: 350px;
-  height: 300px;
-  margin: 10px;
+  width: 300px;
+  height: 250px;
+  margin: 20px 10px;
   position: relative;
-}
-.img {
-  width: 350px;
-  height: 300px;
   border-radius: 25px;
+  overflow: hidden;
+}
+
+.block:hover .infoFood {
+  top: 40%;
+  transition: 0.3s;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  object-fit: cover;
 }
 .infoFood {
+  transition: 0.3s;
   position: absolute;
   top: 70%;
-  width: 350px;
-  height: 90px;
+  width: 100%;
+  height: 150px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
   padding: 0 15px;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 .titleBlock {
   width: 250px;
 }
 .title {
   font-size: 15px;
+  width: 250px;
   color: white;
   letter-spacing: 2px;
   font-weight: 400;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
-.likes {
+.descFood {
+  margin-top: 25px;
+}
+.descFood p {
   color: white;
-  font-size: 20px;
+  font-size: 12px;
 }

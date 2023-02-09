@@ -13,7 +13,7 @@ const PopularFood: FC = () => {
     dispatch(fetchRecipes());
   }, [dispatch]);
 
-  const { recipes, loading } = useSelector((state: RootState) => state.recipes);
+  const { recipes, loading, error } = useSelector((state: RootState) => state.recipes);
 
   return (
     <div className={classes.container}>
@@ -21,11 +21,10 @@ const PopularFood: FC = () => {
         {loading ? (
           <h1>Загрузка...</h1>
         ) : (
-          recipes.map((recipe: recipe) => (
-            <BlockFood key={recipe.recipe_id} recipe={recipe} />
-          ))
+          recipes.map((recipe: recipe) => <BlockFood key={recipe.id} recipe={recipe} />)
         )}
       </div>
+      {error && <h1>{error}</h1>}
     </div>
   );
 };

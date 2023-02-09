@@ -19,7 +19,7 @@ export const fetchRecipes = createAsyncThunk(
   async function (_, { rejectWithValue }) {
     try {
       const recipe = axios
-        .get<recipe[]>("http://acefood/acefood.ru/recipes")
+        .get<recipe[]>("http://127.0.0.1:8000/api/recipes")
         .then((resp) => resp.data);
       return recipe;
     } catch (error) {
@@ -48,7 +48,7 @@ export const recipeSlice = createSlice({
     });
     builder.addCase(fetchRecipes.rejected, (state) => {
       state.loading = false;
-      state.error = "Server error";
+      state.error = "Ошибка сервера!";
     });
   },
 });

@@ -10,23 +10,23 @@ const Header: FC = () => {
         <Link to="/" className={classes.logo}>
           <img src={logo} alt="logo" />
         </Link>
-        <div className={classes.navigation}>
-          <div className={classes.navItem}>
+        <ul className={classes.navigation}>
+          <li className={classes.navItem}>
             <Link to="/recipes">Рецепты</Link>
-          </div>
-          <div className={classes.navItem}>
+          </li>
+          <li className={classes.navItem}>
             <Link to="/">Добавить рецепт</Link>
-          </div>
-          <div className={classes.navItem}>
+          </li>
+          <li className={classes.navItem}>
             <Link to="/">Помощь</Link>
-          </div>
-        </div>
+          </li>
+        </ul>
         <div className={classes.auth}>
-          <Link to="/login" className={classes.authBtn}>
-            <p>Вход</p>
-          </Link>
+          <div className={classes.authBtn}>
+            <Link to="/login">Вход</Link>
+          </div>
           <div className={classes.registerBtn}>
-            <p>Регистрация</p>
+            <Link to="/login">Регистрация</Link>
           </div>
         </div>
       </nav>
