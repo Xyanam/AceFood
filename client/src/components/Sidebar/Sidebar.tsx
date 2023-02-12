@@ -3,18 +3,18 @@ import qs from "qs";
 import classes from "./Sidebar.module.css";
 import Select from "react-select";
 import PinkButton from "../UI/PinkButton/PinkButton";
-import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { fetchRecipes, setRecipes } from "../../redux/slices/recipeSlice";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../http/axios-client";
 
 type TOptionsCategory = {
-  id: string;
+  id: number;
   category: string;
 };
 
 type TOptionsKitchen = {
-  id: string;
+  id: number;
   kitchen: string;
 };
 
@@ -22,20 +22,23 @@ const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [optionsCategoryState, setOptionsCategoryState] = useState<TOptionsCategory[]>([]);
-  const [optionsKitchenState, setOptionsKitchenState] = useState<TOptionsKitchen[]>([]);
+  const [optionsCategoryState, setOptionsCategoryState] = useState<TOptionsCategory[]>([
+    { id: 0, category: "Нет" },
+  ]);
+  const [optionsKitchenState, setOptionsKitchenState] = useState<TOptionsKitchen[]>([
+    { id: 0, kitchen: "Нет" },
+  ]);
 
-  const [categoryValue, setCategoryValue] = useState("");
-  const [kitchenValue, setKitchenValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState<Number>();
+  const [kitchenValue, setKitchenValue] = useState<Number>();
 
   useEffect(() => {
-    axios
-      .get<TOptionsCategory[]>("http://127.0.0.1:8000/api/category")
-      .then((response) => setOptionsCategoryState(response.data));
-
-    axios
-      .get<TOptionsKitchen[]>("http://127.0.0.1:8000/api/kitchen")
-      .then((resp) => setOptionsKitchenState(resp.data));
+    axiosClient
+      .get<TOptionsCategory[]>("/category")
+      .then((response) => setOptionsCategoryState((prev) => [...prev, ...response.data]));
+    axiosClient
+      .get<TOptionsKitchen[]>("/kitchen")
+      .then((resp) => setOptionsKitchenState((prev) => [...prev, ...resp.data]));
   }, []);
 
   const optionsCategory = optionsCategoryState.map((option) => ({
@@ -55,8 +58,8 @@ const Sidebar: FC = () => {
     });
     navigate(`?${queryString}`);
 
-    axios
-      .get(`http://127.0.0.1:8000/api/recipes?kitchen=${kitchenValue}&?category=${categoryValue}`)
+    axiosClient
+      .get(`/recipes?kitchen=${kitchenValue}&category=${categoryValue}`)
       .then((response) => {
         dispatch(setRecipes(response.data));
       });

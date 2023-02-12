@@ -3,14 +3,16 @@ import classes from "./RecipesPage.module.css";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { recipe } from "../../types/TRecipe";
-import { fetchRecipes, setRecipes } from "../../redux/slices/recipeSlice";
+import { setRecipes } from "../../redux/slices/recipeSlice";
 import BlockFood from "../../components/BlockFood/BlockFood";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import axios from "axios";
+
 import qs from "qs";
+import axiosClient from "../../http/axios-client";
 
 const RecipesPage: FC = () => {
   const dispatch = useAppDispatch();
+
   const { recipes, loading } = useSelector((state: RootState) => state.recipes);
 
   const [searchValue, setSearchValue] = useState("");
@@ -29,13 +31,13 @@ const RecipesPage: FC = () => {
   useEffect(() => {
     setLoader(true);
     if (window.location.search) {
-      axios.get(`http://127.0.0.1:8000/api/recipes${kitchen}${category}`).then((response) => {
+      axiosClient.get(`/recipes${kitchen}${category}`).then((response) => {
         dispatch(setRecipes(response.data));
         setLoader(false);
       });
     } else {
       const search = searchValue === "" ? "" : `?search=${searchValue}`;
-      axios.get(`http://127.0.0.1:8000/api/recipes${search}`).then((resp) => {
+      axiosClient.get(`/recipes${search}`).then((resp) => {
         dispatch(setRecipes(resp.data));
         setLoader(false);
       });

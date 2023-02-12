@@ -33,6 +33,7 @@
 }
 .titleBlock {
   width: 250px;
+  height: 65px;
 }
 .title {
   font-size: 15px;
@@ -43,9 +44,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.descFood {
-  margin-top: 25px;
-}
+
 .descFood p {
   color: white;
   font-size: 12px;

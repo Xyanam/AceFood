@@ -1,6 +1,7 @@
 import { recipe } from "./../../types/TRecipe";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import axiosClient from "../../http/axios-client";
 
 interface recipeSliceState {
   recipes: recipe[];
@@ -18,9 +19,7 @@ export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
   async function (_, { rejectWithValue }) {
     try {
-      const recipe = axios
-        .get<recipe[]>("http://127.0.0.1:8000/api/recipes")
-        .then((resp) => resp.data);
+      const recipe = axiosClient.get("/recipes").then((resp) => resp.data);
       return recipe;
     } catch (error) {
       return rejectWithValue(error);
