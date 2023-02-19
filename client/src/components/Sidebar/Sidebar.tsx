@@ -29,8 +29,8 @@ const Sidebar: FC = () => {
     { id: 0, kitchen: "Нет" },
   ]);
 
-  const [categoryValue, setCategoryValue] = useState<Number>();
-  const [kitchenValue, setKitchenValue] = useState<Number>();
+  const [categoryValue, setCategoryValue] = useState<Number>(0);
+  const [kitchenValue, setKitchenValue] = useState<Number>(0);
 
   useEffect(() => {
     axiosClient

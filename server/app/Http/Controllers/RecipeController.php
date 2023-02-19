@@ -40,11 +40,12 @@ class RecipeController extends Controller
     }
     public function show($id)
     {
-        return DB::table('recipes')
+        $recipe = DB::table('recipes')
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->select('recipes.*', 'kitchens.kitchen', 'categories.category')
             ->where('recipes.id', '=', "{$id}")
-            ->get();
+            ->first();
+        return $recipe;
     }
 }
