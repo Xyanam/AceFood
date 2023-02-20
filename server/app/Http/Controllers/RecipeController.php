@@ -48,4 +48,14 @@ class RecipeController extends Controller
             ->first();
         return $recipe;
     }
+    public function getIngredients($id)
+    {
+        return DB::table('recipe_ingredients')
+            ->join('ingredients', 'ingredient_id', '=', 'ingredients.id')
+            ->join('measures', 'measure_id', '=', 'measures.id')
+            ->join('recipes', 'recipe_id', "=", 'recipes.id')
+            ->select('ingredients.ingredient', 'ingredients.calories', 'ingredients.proteins', 'ingredients.fats', 'ingredients.fats', 'ingredients.carbohydrates', 'measures.measure', 'recipe_ingredients.amount')
+            ->where('recipe_ingredients.recipe_id', '=', "{$id}")
+            ->get();
+    }
 }

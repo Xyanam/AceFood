@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('ingredient');
             $table->integer('calories');
-            $table->integer('proteins');
-            $table->integer('fats');
-            $table->integer('carbohydrates');
+            $table->float('proteins');
+            $table->float('fats');
+            $table->float('carbohydrates');
             $table->timestamps();
         });
     }
