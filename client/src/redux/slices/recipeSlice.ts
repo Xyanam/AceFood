@@ -1,10 +1,12 @@
 import { recipe } from "./../../types/TRecipe";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosClient from "../../http/axios-client";
+import { Ingredient } from "../../types/TIngredient";
 
 interface recipeSliceState {
   recipes: recipe[];
   recipe: recipe;
+  ingredients: Ingredient[]
   loading: boolean;
   error: null | string;
 }
@@ -12,6 +14,7 @@ interface recipeSliceState {
 const initialState: recipeSliceState = {
   recipes: [],
   recipe: {} as recipe,
+  ingredients: [],
   loading: false,
   error: null,
 };
@@ -41,6 +44,18 @@ export const fetchRecipeById = createAsyncThunk<recipe, string>(
     }
   }
 );
+
+export const fetchIngredientsByRecipe = createAsyncThunk<Ingredient[], string>(
+  'recipes/fetchIngredient',
+  async (recipeId, { rejectWithValue }) => {
+    try {
+      const ingredients = await axiosClient.get<Ingredient[]>(`/recipes/${recipeId}/ingredients`).then(response => response.data)
+      return ingredients
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 
 export const recipeSlice = createSlice({
   name: "recipes",
@@ -76,7 +91,20 @@ export const recipeSlice = createSlice({
     builder.addCase(fetchRecipeById.rejected, (state) => {
       state.error = "Ошибка сервера!";
       state.loading = false;
-    });
+    })
+    builder.addCase(fetchIngredientsByRecipe.pending, state => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(fetchIngredientsByRecipe.fulfilled, (state,action) => {
+        state.ingredients = action.payload
+        state.loading = false
+        state.error = null
+    })
+    builder.addCase(fetchIngredientsByRecipe.rejected, state => {
+      state.error = 'Ошибка сервера'
+      state.loading = false
+      });
   },
 });
 

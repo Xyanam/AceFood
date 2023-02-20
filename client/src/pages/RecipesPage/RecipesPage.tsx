@@ -15,7 +15,7 @@ import Skeleton from "../../components/SkeletonRecipe/SkeletonRecipe";
 const RecipesPage: FC = () => {
   const dispatch = useAppDispatch();
 
-  const { recipes, loading } = useSelector((state: RootState) => state.recipes);
+  const { recipes, loading, error } = useSelector((state: RootState) => state.recipes);
   const [searchValue, setSearchValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
@@ -67,6 +67,7 @@ const RecipesPage: FC = () => {
       <div className={classes.container}>
         <Sidebar />
         <div className={classes.recipes}>
+          {error && <h1>{error}</h1>}
           {loading || loader
             ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
             : recipes.map((recipe: recipe) => <BlockFood key={recipe.id} recipe={recipe} />)}

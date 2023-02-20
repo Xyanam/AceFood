@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { recipe } from "../../types/TRecipe";
 import classes from "./InfoRecipe.module.css";
+import IconsIngredientBlock from "./IconsIngredientBlock/IconsIngredientBlock";
 
 type InfoRecipeProps = {
   recipe: recipe;
@@ -21,6 +22,7 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
           </div>
         </div>
       </div>
+      <IconsIngredientBlock recipe={recipe} />
     </div>
   );
 };

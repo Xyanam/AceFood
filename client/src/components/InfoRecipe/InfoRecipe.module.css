@@ -1,3 +1,7 @@
+.infoFood {
+  display: flex;
+  margin-top: 40px;
+}
 .image {
   width: 400px;
   height: 400px;
@@ -15,8 +19,8 @@
   align-items: center;
 }
 .avatarAuthor {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   background-color: gray;
   border-radius: 50%;
 }
