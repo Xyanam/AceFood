@@ -22,7 +22,7 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
           </div>
         </div>
       </div>
-      <IconsIngredientBlock recipe={recipe} />
+      <IconsIngredientBlock />
     </div>
   );
 };

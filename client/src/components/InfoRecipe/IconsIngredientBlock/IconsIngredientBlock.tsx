@@ -1,30 +1,25 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import classes from "./IconsIngredientBlock.module.css";
-import { recipe } from "../../../types/TRecipe";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
-type IconsIngredientBlockProps = {
-  recipe: recipe;
-};
+const IconsIngredientBlock: FC = () => {
+  const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
 
-const IconsIngredientBlock: FC<IconsIngredientBlockProps> = ({ recipe }) => {
-  const { ingredients } = useSelector((state: RootState) => state.recipes);
+  const calories = useMemo(() => {
+    return ingredients.reduce((a, b) => Math.round(a + (b.calories / 100) * +b.amount), 0);
+  }, [ingredients]);
 
-  const calories = ingredients.reduce((a, b) => {
-    return Math.round((a + b.calories * +b.amount) / 100);
-  }, 0);
+  const proteins = useMemo(() => {
+    return ingredients.reduce((a, b) => Math.round(a + (b.proteins / 100) * +b.amount), 0);
+  }, [ingredients]);
 
-  const proteins = ingredients.reduce((a, b) => {
-    return Math.round((a + b.proteins * +b.amount) / 100);
-  }, 0);
-
-  const fats = ingredients.reduce((a, b) => {
-    return Math.round((a + b.fats * +b.amount) / 100);
-  }, 0);
-  const carbohydrates = ingredients.reduce((a, b) => {
-    return Math.round((a + b.carbohydrates * +b.amount) / 100);
-  }, 0);
+  const fats = useMemo(() => {
+    return ingredients.reduce((a, b) => Math.round(a + (b.fats / 100) * +b.amount), 0);
+  }, [ingredients]);
+  const carbohydrates = useMemo(() => {
+    return ingredients.reduce((a, b) => Math.round(a + (b.carbohydrates / 100) * +b.amount), 0);
+  }, [ingredients]);
 
   return (
     <div className={classes.iconsIngredientBlock}>
@@ -72,6 +67,14 @@ const IconsIngredientBlock: FC<IconsIngredientBlockProps> = ({ recipe }) => {
             {ingredient.ingredient}: {ingredient.amount} {ingredient.measure}
           </p>
         ))}
+      </div>
+      <div className={classes.cooking__method}>
+        <div className={classes.title}>
+          <h1>Способ приготовления</h1>
+        </div>
+        <div className={classes.steps}>
+          <p>{recipe.text}</p>
+        </div>
       </div>
     </div>
   );

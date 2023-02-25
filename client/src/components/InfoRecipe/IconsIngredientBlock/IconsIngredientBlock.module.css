@@ -3,6 +3,7 @@
 }
 .icons {
   display: flex;
+  justify-content: space-between;
 }
 .iconItem {
   display: flex;
@@ -22,4 +23,24 @@
 .ingredients p {
   margin-top: 0;
   margin-bottom: 40px;
+  font-size: 18px;
+}
+
+.cooking__method {
+  width: 100%;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+  border-bottom: 1px solid black;
+}
+.title h1 {
+  font-size: 30px;
+}
+.steps p {
+  font-size: 18px;
+  white-space: pre-wrap;
 }
