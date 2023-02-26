@@ -2,8 +2,16 @@ import React, { FC } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/acefood.gif";
+import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { logoutUser } from "../../redux/slices/userSlice";
 
 const Header: FC = () => {
+  const { isAuth } = useAuth();
+
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
   return (
     <header className={classes.header}>
       <nav className={classes.nav}>
@@ -22,12 +30,21 @@ const Header: FC = () => {
           </li>
         </ul>
         <div className={classes.auth}>
-          <div className={classes.authBtn}>
-            <Link to="/login">Вход</Link>
-          </div>
-          <div className={classes.registerBtn}>
-            <Link to="/login">Регистрация</Link>
-          </div>
+          {isAuth ? (
+            <>
+              <p>{user.name}</p>
+              <button onClick={() => dispatch(logoutUser())}>Выйти</button>
+            </>
+          ) : (
+            <>
+              <div className={classes.authBtn}>
+                <Link to="/login">Вход</Link>
+              </div>
+              <div className={classes.registerBtn}>
+                <Link to="/register">Регистрация</Link>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </header>
