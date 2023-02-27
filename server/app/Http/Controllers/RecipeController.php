@@ -17,7 +17,8 @@ class RecipeController extends Controller
         $builder = DB::table('recipes')
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
-            ->select('recipes.*', 'kitchens.kitchen', 'categories.category');
+            ->join('users', 'user_id', '=', 'users.id')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name');
 
         if ($search) {
             $builder->where('recipes.title', 'like', "%{$search}%");
@@ -43,7 +44,8 @@ class RecipeController extends Controller
         $recipe = DB::table('recipes')
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
-            ->select('recipes.*', 'kitchens.kitchen', 'categories.category')
+            ->join('users', 'user_id', '=', 'users.id')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name')
             ->where('recipes.id', '=', "{$id}")
             ->first();
         return $recipe;

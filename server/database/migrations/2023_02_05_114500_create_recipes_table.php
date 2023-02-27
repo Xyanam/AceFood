@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('text');
             $table->foreignId('kitchen_id')->constrained();
             $table->foreignId('category_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->integer('calories')->nullable();
             $table->integer('rating')->nullable();
             $table->char('image')->nullable();

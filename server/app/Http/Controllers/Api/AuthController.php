@@ -28,8 +28,10 @@ class AuthController extends Controller
         $credentials = $request->validated();
         if (!Auth::attempt($credentials)) {
             return response([
-                'message' => 'Неправильный логин или пароль!'
-            ]);
+                'errors' => [
+                    "password" => 'Неверный логин или пароль'
+                ]
+            ], 422);
         }
         /** @var \App\Models\User $user */
         $user = Auth::user();
