@@ -1,39 +1,37 @@
 .container {
   max-width: 1920px;
   width: 100%;
-  margin: 0 auto;
-  position: relative;
-}
-.images {
+  height: calc(100vh - 100px);
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-}
-.img {
-  max-height: 840px;
-  height: 100%;
-}
-.formBlock {
-  max-width: 500px;
-  width: 100%;
-  position: absolute;
-  left: 40%;
-  top: 10%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-image: url("../../assets/img/backgroundLogin.png");
+  background-size: cover;
 }
 .form {
-  max-width: 800px;
+  max-width: 350px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .formItem {
-  margin-top: 40px;
-  max-width: 600px;
+  margin-top: 25px;
   width: 100%;
 }
 .error {
   color: red;
   margin: 0;
   font-size: 14px;
+}
+.noAccount {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.noAccount a {
+  margin-left: 10px;
+  color: #525151;
 }

@@ -1,7 +1,6 @@
 @font-face {
   font-family: "Multiround";
-  src: local("Multiround"),
-    url("./assets/fonts/MultiroundPro.otf") format("opentype");
+  src: local("Multiround"), url("./assets/fonts/MultiroundPro.otf") format("opentype");
 }
 
 body {

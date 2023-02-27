@@ -8,14 +8,14 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
 import RecipesPage from "./pages/RecipesPage/RecipesPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import { setUser } from "./redux/slices/userSlice";
+import { getUser } from "./redux/slices/userSlice";
 import { useAppDispatch } from "./redux/store";
 import AuthService from "./services/AuthService";
 
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    AuthService.getUser().then((user) => dispatch(setUser(user)));
+    AuthService.getUser().then(() => dispatch(getUser()));
   }, []);
   return (
     <div className="App">

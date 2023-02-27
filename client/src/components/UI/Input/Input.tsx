@@ -5,12 +5,13 @@ type InputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  type: string;
 };
 
-const Input: FC<InputProps> = ({ value, onChange, placeholder }) => {
+const Input: FC<InputProps> = ({ value, onChange, placeholder, type }) => {
   return (
     <input
-      type="text"
+      type={type}
       value={value}
       placeholder={placeholder}
       onChange={onChange}

@@ -17,7 +17,7 @@ const BlockFood: FC<BlockFoodProps> = ({ recipe }) => {
             <h1 className={classes.title}>{recipe.title}</h1>
           </div>
           <div className={classes.descFood}>
-            <p>Автор: Алексей</p>
+            <p>Автор: {recipe.name}</p>
           </div>
         </div>
       </Link>

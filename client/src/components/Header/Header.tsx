@@ -11,6 +11,7 @@ const Header: FC = () => {
   const { isAuth } = useAuth();
 
   const { user } = useSelector((state: RootState) => state.user);
+
   const dispatch = useAppDispatch();
   return (
     <header className={classes.header}>
@@ -31,10 +32,10 @@ const Header: FC = () => {
         </ul>
         <div className={classes.auth}>
           {isAuth ? (
-            <>
+            <div className={classes.user}>
               <p>{user.name}</p>
               <button onClick={() => dispatch(logoutUser())}>Выйти</button>
-            </>
+            </div>
           ) : (
             <>
               <div className={classes.authBtn}>

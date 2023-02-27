@@ -4,6 +4,7 @@ export type recipe = {
   text: string;
   kitchen_id: number;
   category_id: number;
+  user_id: string;
   calories: number;
   rating: null | number;
   image: string;
@@ -11,4 +12,5 @@ export type recipe = {
   updated_at: null | string;
   kitchen: string;
   category: string;
+  name: string;
 };

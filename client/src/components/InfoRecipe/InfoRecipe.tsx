@@ -17,7 +17,7 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
         <div className={classes.author}>
           <div className={classes.avatarAuthor}></div>
           <div className={classes.infoAuthor}>
-            <p>Алексей</p>
+            <p>{recipe.name}</p>
             <p>Уровень: Бог кулинарии</p>
           </div>
         </div>

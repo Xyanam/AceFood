@@ -23,7 +23,7 @@ export default class AuthService {
   }
 
   static async logout() {
-    return axiosClient.post("/logout");
+    return axiosClient.post("/logout").then(resp => resp.data);
   }
   static async getUser() {
     return axiosClient.get("/user").then((resp) => resp.data);
