@@ -9,6 +9,7 @@ import { registerUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,12 @@ const LoginPage: FC = () => {
         return;
       } else {
         navigate("/");
+        toast.success("🌭Успешная регистрация!", {
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          theme: "light",
+        });
       }
     });
   };

@@ -2,11 +2,12 @@ import { recipe } from "./../../types/TRecipe";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosClient from "../../http/axios-client";
 import { Ingredient } from "../../types/TIngredient";
+import RecipeService from "../../services/RecipeService";
 
 interface recipeSliceState {
   recipes: recipe[];
   recipe: recipe;
-  ingredients: Ingredient[]
+  ingredients: Ingredient[];
   loading: boolean;
   error: null | string;
 }
@@ -23,7 +24,7 @@ export const fetchRecipes = createAsyncThunk<recipe[]>(
   "recipes/fetchRecipes",
   async (_, { rejectWithValue }) => {
     try {
-      const recipes = await axiosClient.get<recipe[]>("/recipes").then((resp) => resp.data);
+      const recipes = await RecipeService.getRecipes();
       return recipes;
     } catch (error) {
       return rejectWithValue(error);
@@ -46,16 +47,18 @@ export const fetchRecipeById = createAsyncThunk<recipe, string>(
 );
 
 export const fetchIngredientsByRecipe = createAsyncThunk<Ingredient[], string>(
-  'recipes/fetchIngredient',
+  "recipes/fetchIngredient",
   async (recipeId, { rejectWithValue }) => {
     try {
-      const ingredients = await axiosClient.get<Ingredient[]>(`/recipes/${recipeId}/ingredients`).then(response => response.data)
-      return ingredients
+      const ingredients = await axiosClient
+        .get<Ingredient[]>(`/recipes/${recipeId}/ingredients`)
+        .then((response) => response.data);
+      return ingredients;
     } catch (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   }
-)
+);
 
 export const recipeSlice = createSlice({
   name: "recipes",
@@ -91,20 +94,20 @@ export const recipeSlice = createSlice({
     builder.addCase(fetchRecipeById.rejected, (state) => {
       state.error = "Ошибка сервера!";
       state.loading = false;
-    })
-    builder.addCase(fetchIngredientsByRecipe.pending, state => {
-      state.loading = true
-      state.error = null
-    })
-    builder.addCase(fetchIngredientsByRecipe.fulfilled, (state,action) => {
-        state.ingredients = action.payload
-        state.loading = false
-        state.error = null
-    })
-    builder.addCase(fetchIngredientsByRecipe.rejected, state => {
-      state.error = 'Ошибка сервера'
-      state.loading = false
-      });
+    });
+    builder.addCase(fetchIngredientsByRecipe.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchIngredientsByRecipe.fulfilled, (state, action) => {
+      state.ingredients = action.payload;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(fetchIngredientsByRecipe.rejected, (state) => {
+      state.error = "Ошибка сервера";
+      state.loading = false;
+    });
   },
 });
 

@@ -16,17 +16,19 @@ const InfoRecipePage: FC = () => {
     }
   }, []);
   return (
-    <div className={classes.container}>
-      {loading ? (
-        <h1>Загразка...</h1>
-      ) : (
-        <>
-          <div className={classes.title}>
-            <h1>{recipe.title}</h1>
-          </div>
-          <InfoRecipe recipe={recipe} />
-        </>
-      )}
+    <div className={classes.wrapper}>
+      <div className={classes.container}>
+        {loading ? (
+          <h1>Загразка...</h1>
+        ) : (
+          <>
+            <div className={classes.title}>
+              <h1>{recipe.title}</h1>
+            </div>
+            <InfoRecipe recipe={recipe} />
+          </>
+        )}
+      </div>
     </div>
   );
 };

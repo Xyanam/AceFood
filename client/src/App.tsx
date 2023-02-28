@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Header from "./components/Header/Header";
-import axiosClient from "./http/axios-client";
 import InfoRecipePage from "./pages/InfoRecipePage/InfoRecipePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
@@ -20,6 +20,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <ToastContainer position="top-center" autoClose={2000} />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/recipes" element={<RecipesPage />} />

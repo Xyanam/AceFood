@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
 import classes from "./LoginPage.module.css";
-import foodLeft from "../../assets/img/loginfoodleft.png";
-import foodRight from "../../assets/img/loginfoodright.png";
 import Input from "../../components/UI/Input/Input";
 import PinkButton from "../../components/UI/PinkButton/PinkButton";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -9,6 +7,8 @@ import { loginUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
@@ -35,6 +35,12 @@ const LoginPage: FC = () => {
         return;
       } else {
         navigate("/recipes");
+        toast.success("🍕Успешная авторизация!", {
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          theme: "light",
+        });
       }
     });
   };
