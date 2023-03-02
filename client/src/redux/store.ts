@@ -1,3 +1,4 @@
+import commentsSlice from "./slices/commentsSlice";
 import userSlice from "./slices/userSlice";
 import recipeSlice from "./slices/recipeSlice";
 import { configureStore } from "@reduxjs/toolkit";
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     recipes: recipeSlice,
     user: userSlice,
+    comment: commentsSlice,
   },
 });
 

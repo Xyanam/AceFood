@@ -1,6 +1,13 @@
 import axiosClient from "../http/axios-client";
+import { IComments } from "../types/IComments";
 import { Ingredient } from "../types/TIngredient";
 import { recipe } from "../types/TRecipe";
+
+export type CommentRecipeData = {
+  user_id: string;
+  recipe_id: string | undefined;
+  text: string;
+};
 
 export default class RecipeService {
   static async getRecipes() {
@@ -12,6 +19,16 @@ export default class RecipeService {
   static async getIngredientByRecipe(recipeID: string) {
     return axiosClient
       .get<Ingredient[]>(`/recipes/${recipeID}/ingredients`)
+      .then((response) => response.data);
+  }
+  static async getCommentsByRecipe(recipeID: string) {
+    return axiosClient
+      .get<IComments[]>(`/recipes/${recipeID}/comments`)
+      .then((response) => response.data);
+  }
+  static async addCommentsByRecipe(data: CommentRecipeData) {
+    return axiosClient
+      .post(`/recipes/${data.recipe_id}/comments`, data)
       .then((response) => response.data);
   }
 }

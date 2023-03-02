@@ -60,4 +60,13 @@ class RecipeController extends Controller
             ->where('recipe_ingredients.recipe_id', '=', "{$id}")
             ->get();
     }
+    public function getComments($id)
+    {
+        return DB::table('comments')
+            ->join('users', 'user_id', '=', 'users.id')
+            ->where('comments.recipe_id', '=', "{$id}")
+            ->select('users.name', 'users.image', 'comments.user_id', 'comments.text', 'comments.created_at', 'comments.recipe_id', 'comments.id')
+            ->orderBy('comments.created_at', 'desc')
+            ->get();
+    }
 }

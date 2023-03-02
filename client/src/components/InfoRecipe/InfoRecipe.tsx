@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { recipe } from "../../types/TRecipe";
 import classes from "./InfoRecipe.module.css";
 import IconsIngredientBlock from "./IconsIngredientBlock/IconsIngredientBlock";

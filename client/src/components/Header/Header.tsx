@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/acefood.gif";
+import logo2 from "../../assets/img/acefood2.gif";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -17,7 +18,7 @@ const Header: FC = () => {
     <header className={classes.header}>
       <nav className={classes.nav}>
         <Link to="/" className={classes.logo}>
-          <img src={logo} alt="logo" />
+          <img src={logo2} alt="logo" />
         </Link>
         <ul className={classes.navigation}>
           <li className={classes.navItem}>

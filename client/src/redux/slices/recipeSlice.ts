@@ -1,13 +1,15 @@
 import { recipe } from "./../../types/TRecipe";
+import { Ingredient } from "../../types/TIngredient";
+import { IComments } from "../../types/IComments";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosClient from "../../http/axios-client";
-import { Ingredient } from "../../types/TIngredient";
 import RecipeService from "../../services/RecipeService";
 
 interface recipeSliceState {
   recipes: recipe[];
   recipe: recipe;
   ingredients: Ingredient[];
+  comments: IComments[];
   loading: boolean;
   error: null | string;
 }
@@ -16,6 +18,7 @@ const initialState: recipeSliceState = {
   recipes: [],
   recipe: {} as recipe,
   ingredients: [],
+  comments: [],
   loading: false,
   error: null,
 };
@@ -54,6 +57,18 @@ export const fetchIngredientsByRecipe = createAsyncThunk<Ingredient[], string>(
         .get<Ingredient[]>(`/recipes/${recipeId}/ingredients`)
         .then((response) => response.data);
       return ingredients;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchCommentsByRecipe = createAsyncThunk<IComments[], string>(
+  "recipes/fetchComments",
+  async (recipeId, { rejectWithValue }) => {
+    try {
+      const comments = await RecipeService.getCommentsByRecipe(recipeId);
+      return comments;
     } catch (error) {
       return rejectWithValue(error);
     }

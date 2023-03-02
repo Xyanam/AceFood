@@ -8,12 +8,11 @@
   width: 100%;
   margin: 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 .logo {
-  width: 140px;
-  height: 100px;
+  width: 184px;
+  height: 120px;
+  padding-bottom: 20px;
 }
 .logo img {
   width: 100%;
@@ -36,6 +35,7 @@
 }
 .auth {
   display: flex;
+  align-items: center;
 }
 .authBtn a {
   width: 100px;

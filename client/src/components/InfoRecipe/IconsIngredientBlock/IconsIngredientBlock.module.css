@@ -44,3 +44,23 @@
   font-size: 18px;
   white-space: pre-wrap;
 }
+.calculatePortion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calculate {
+  margin: 0 10px;
+  font-size: 26px;
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+}
+.portion {
+  width: 40px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
