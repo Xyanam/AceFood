@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
-import logo from "../../assets/img/acefood.gif";
 import logo2 from "../../assets/img/acefood2.gif";
+import arrow from "../../assets/img/arrow.svg";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -10,10 +10,10 @@ import { logoutUser } from "../../redux/slices/userSlice";
 
 const Header: FC = () => {
   const { isAuth } = useAuth();
-
-  const { user } = useSelector((state: RootState) => state.user);
-
+  const { user, loading } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const [activeArrow, setActiveArrow] = useState(false);
+
   return (
     <header className={classes.header}>
       <nav className={classes.nav}>
@@ -32,20 +32,42 @@ const Header: FC = () => {
           </li>
         </ul>
         <div className={classes.auth}>
-          {isAuth ? (
-            <div className={classes.user}>
-              <p>{user.name}</p>
-              <button onClick={() => dispatch(logoutUser())}>Выйти</button>
-            </div>
+          {!loading ? (
+            isAuth ? (
+              <div className={classes.user} onClick={() => setActiveArrow(!activeArrow)}>
+                <div className={classes.avatar}>
+                  <img src={`data:image/png;base64,${user.image}`} alt="" />
+                </div>
+                <p className={classes.login}>{user.name}</p>
+                <img src={arrow} className={!activeArrow ? classes.arrowActive : classes.arrow} />
+                {activeArrow && (
+                  <div className={classes.popup} onClick={(e) => e.stopPropagation()}>
+                    <Link to="/recipes" className={classes.popupItem}>
+                      Профиль
+                    </Link>
+                    <p
+                      className={classes.popupItem}
+                      onClick={() => {
+                        dispatch(logoutUser());
+                        setActiveArrow(false);
+                      }}>
+                      Выйти
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className={classes.authBtn}>
+                  <Link to="/login">Вход</Link>
+                </div>
+                <div className={classes.registerBtn}>
+                  <Link to="/register">Регистрация</Link>
+                </div>
+              </>
+            )
           ) : (
-            <>
-              <div className={classes.authBtn}>
-                <Link to="/login">Вход</Link>
-              </div>
-              <div className={classes.registerBtn}>
-                <Link to="/register">Регистрация</Link>
-              </div>
-            </>
+            <p>Загрузка</p>
           )}
         </div>
       </nav>

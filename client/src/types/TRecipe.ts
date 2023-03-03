@@ -7,6 +7,7 @@ export type recipe = {
   user_id: string;
   calories: number;
   rating: null | number;
+  portion: number;
   image: string;
   created_at: null | string;
   updated_at: null | string;

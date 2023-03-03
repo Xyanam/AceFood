@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('calories')->nullable();
             $table->integer('rating')->nullable();
+            $table->integer('portion');
             $table->char('image')->nullable();
             $table->timestamps();
         });

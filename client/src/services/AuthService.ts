@@ -6,6 +6,7 @@ export type DataRegister = {
   email: string;
   password: string;
   password_confirmation: string;
+  profilePicture: File;
 };
 
 export type DataLogin = {
@@ -15,7 +16,11 @@ export type DataLogin = {
 
 export default class AuthService {
   static async register(data: DataRegister) {
-    return axiosClient.post<AuthResponse>("/register", data).then((resp) => resp.data);
+    return axiosClient
+      .post<AuthResponse>("/register", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((resp) => resp.data);
   }
 
   static async login(data: DataLogin) {
@@ -23,9 +28,12 @@ export default class AuthService {
   }
 
   static async logout() {
-    return axiosClient.post("/logout").then(resp => resp.data);
+    return axiosClient.post("/logout").then((resp) => resp.data);
   }
   static async getUser() {
-    return axiosClient.get("/user").then((resp) => resp.data);
+    return axiosClient
+      .get("/user")
+      .then((resp) => resp.data)
+      .catch((error) => error);
   }
 }

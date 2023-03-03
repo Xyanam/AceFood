@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeController extends Controller
 {
@@ -62,11 +64,18 @@ class RecipeController extends Controller
     }
     public function getComments($id)
     {
-        return DB::table('comments')
+        $comments = DB::table('comments')
             ->join('users', 'user_id', '=', 'users.id')
             ->where('comments.recipe_id', '=', "{$id}")
             ->select('users.name', 'users.image', 'comments.user_id', 'comments.text', 'comments.created_at', 'comments.recipe_id', 'comments.id')
             ->orderBy('comments.created_at', 'desc')
             ->get();
+        $comments = $comments->map(function ($comment) {
+            $comment->created_at = Carbon::parse($comment->created_at)->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+            $comment->image = base64_encode(Storage::get(str_replace('/storage', 'public/', $comment->image)));
+            return $comment;
+        });
+
+        return $comments;
     }
 }

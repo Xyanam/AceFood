@@ -6,7 +6,7 @@ import { RootState } from "../../../redux/store";
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
 
-  const [portion, setPortion] = useState(1);
+  const [portion, setPortion] = useState(recipe.portion);
 
   const calories = useMemo(() => {
     return ingredients.reduce((a, b) => Math.round(a + (b.calories / 100) * +b.amount), 0);

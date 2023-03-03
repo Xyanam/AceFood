@@ -8,18 +8,28 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
+        $path = null;
+        if ($request->hasFile('profilePicture')) {
+            $path = $request->file('profilePicture')->store('public/profile-pictures');
+            $path = Storage::url($path);
+        }
         /** @var \App\Models\User $user */
         $user = User::create([
             'name'  => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'image' => $path
         ]);
+        $contents = Storage::get(str_replace('/storage', 'public/', $path));
+        $base64 = base64_encode($contents);
+        $user->image = $base64;
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user', 'token'));
     }
@@ -35,6 +45,9 @@ class AuthController extends Controller
         }
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $contents = Storage::get(str_replace('/storage', 'public/', $user->image));
+        $base64 = base64_encode($contents);
+        $user->image = $base64;
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user', 'token'));
     }

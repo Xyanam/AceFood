@@ -57,10 +57,6 @@ export const commentsSlice = createSlice({
       state.loading = false;
       state.errorComment = "Ошибка загрузки комментариев";
     });
-    builder.addCase(addCommentsForRecipe.pending, (state) => {
-      state.loading = true;
-      state.errorComment = null;
-    });
     builder.addCase(addCommentsForRecipe.fulfilled, (state, action) => {
       state.comments.unshift(action.payload);
       state.loading = false;

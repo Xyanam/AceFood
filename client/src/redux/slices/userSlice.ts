@@ -31,7 +31,7 @@ interface UserSliceState {
 const initialState: UserSliceState = {
   token: localStorage.getItem("ACCESS_TOKEN") || "",
   user: {} as IUser,
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -69,16 +69,14 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async (_, { reject
   }
 });
 
-export const getUser = createAsyncThunk(
-  'user/getUser',
-  async(_, {rejectWithValue}) => {
-    try {
-      return await AuthService.getUser()
-    } catch (error) {
-      return rejectWithValue(error)
-    }
+export const getUser = createAsyncThunk("user/getUser", async (_, { rejectWithValue }) => {
+  try {
+    const user = await AuthService.getUser();
+    return user;
+  } catch (error) {
+    return rejectWithValue(error);
   }
-)
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -130,25 +128,23 @@ export const userSlice = createSlice({
       }
     });
     builder.addCase(logoutUser.fulfilled, (state) => {
-      state.token = "",
-      state.user = {} as IUser;
+      (state.token = ""), (state.user = {} as IUser);
       localStorage.removeItem("ACCESS_TOKEN");
     });
 
-    builder.addCase(getUser.pending, state => {
-      state.loading = true
-      state.error = null
+    builder.addCase(getUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
     });
-    builder.addCase(getUser.fulfilled, (state, {payload}) => {
-      state.user = payload,
-      state.loading = false
+    builder.addCase(getUser.fulfilled, (state, { payload }) => {
+      (state.user = payload), (state.loading = false);
     });
-    builder.addCase(getUser.rejected, (state,action) => {
-      if(action.payload){
-        state.error = action.payload
+    builder.addCase(getUser.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload;
       }
-      state.loading = false
-    })
+      state.loading = false;
+    });
   },
 });
 

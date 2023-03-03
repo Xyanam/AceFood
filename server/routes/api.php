@@ -7,10 +7,13 @@ use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        $user = $request->user();
+        $user->image = base64_encode(Storage::get(str_replace('/storage', 'public/', $user->image)));
+        return $user;
     });
     Route::post('/logout', [AuthController::class, 'logout']);
 });

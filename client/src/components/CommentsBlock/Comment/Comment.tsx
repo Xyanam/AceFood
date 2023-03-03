@@ -10,10 +10,12 @@ const Comment: FC<CommentProps> = ({ comment }) => {
   return (
     <div className={classes.comment}>
       <div className={classes.infoAuthor}>
-        <div className={classes.img}></div>
+        <div className={classes.img}>
+          <img src={`data:image/png;base64,${comment.image}`} alt="" />
+        </div>
         <div className={classes.author}>
           <p>{comment.name}</p>
-          <p>{comment.created_at}</p>
+          <p className={classes.date}>{comment.created_at}</p>
         </div>
       </div>
       <div className={classes.commentText}>{comment.text}</div>

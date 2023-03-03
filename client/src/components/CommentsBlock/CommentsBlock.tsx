@@ -9,24 +9,26 @@ import Comment from "./Comment/Comment";
 import classes from "./CommentsBlock.module.css";
 
 const CommentsBlock: FC = () => {
-  const { loading, error } = useSelector((state: RootState) => state.recipes);
-  const { comments, errorComment } = useSelector((state: RootState) => state.comment);
+  const { comments, errorComment, loading } = useSelector((state: RootState) => state.comment);
   const { user } = useSelector((state: RootState) => state.user);
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const [textComment, setTextComment] = useState("");
 
   const addNewComment = () => {
-    if (textComment.length > 6) {
+    if (textComment.length >= 5) {
       const data = {
         user_id: user.id,
         recipe_id: id,
         text: textComment,
       };
-      dispatch(addCommentsForRecipe(data));
+      toast.promise(dispatch(addCommentsForRecipe(data)), {
+        pending: "Загрузка...",
+        success: "Успешно",
+      });
       setTextComment("");
     } else {
-      toast.warning("Введите больше 6 символов");
+      toast.warning("Введите больше 5 символов");
     }
   };
 
@@ -55,7 +57,7 @@ const CommentsBlock: FC = () => {
       ) : (
         <h3 style={{ color: "gray" }}>Тут пусто! Оставьте комментарий первым!</h3>
       )}
-      {error && <h1>{error}</h1>}
+      {errorComment && errorComment}
     </div>
   );
 };

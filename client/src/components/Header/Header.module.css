@@ -65,19 +65,62 @@
 .user {
   display: flex;
   align-items: center;
+  position: relative;
+  cursor: pointer;
 }
-.user p {
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.login {
   font-size: 18px;
   margin-right: 10px;
-}
-.user button {
   cursor: pointer;
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
+.arrowActive {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+.popup {
+  width: 150px;
+  padding: 10px 15px;
+  background-color: #cccccc;
+  border-radius: 20px;
+  position: absolute;
+  top: 90%;
+  left: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: default;
+}
+.popupItem {
+  margin: 10px 0px;
   text-decoration: none;
-  border-radius: 40px;
-  padding: 15px 20px;
-  border: none;
-  font-family: "Multiround";
-  font-size: 14px;
-  color: white;
-  background-color: #e97c94;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+.popupItem:hover {
+  color: rgb(94, 94, 94);
 }
