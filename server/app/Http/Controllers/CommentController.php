@@ -26,4 +26,12 @@ class CommentController extends Controller
             'name' => $user->name
         ]);
     }
+    public function deleteComment(Request $request)
+    {
+        $comment = Comment::findOrFail($request['comment_id']);
+        if ($comment) {
+            $comment->delete();
+            return response($comment, 200);
+        }
+    }
 }

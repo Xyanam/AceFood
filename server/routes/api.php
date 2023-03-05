@@ -27,5 +27,6 @@ Route::get('/recipes/{id}', [RecipeController::class, 'show']);
 Route::get('/recipes/{id}/ingredients', [RecipeController::class, 'getIngredients']);
 Route::get('/recipes/{id}/comments', [RecipeController::class, 'getComments']);
 Route::post('/recipes/{id}/comments', [CommentController::class, 'createComment']);
+Route::post('/recipes/deleteComment', [CommentController::class, 'deleteComment']);
 Route::get('/kitchen', [KitchenController::class, 'index']);
 Route::get('/category', [CategoryController::class, 'index']);

@@ -31,4 +31,9 @@ export default class RecipeService {
       .post(`/recipes/${data.recipe_id}/comments`, data)
       .then((response) => response.data);
   }
+  static async deleteCommentById(id: number) {
+    return axiosClient
+      .post(`/recipes/deleteComment`, { comment_id: id })
+      .then((response) => response.data);
+  }
 }

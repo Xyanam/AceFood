@@ -39,6 +39,17 @@ export const addCommentsForRecipe = createAsyncThunk<IComments, CommentRecipeDat
   }
 );
 
+export const deleteCommentById = createAsyncThunk<IComments, number>(
+  "comments/deleteComment",
+  async (id, { rejectWithValue }) => {
+    try {
+      return await RecipeService.deleteCommentById(id);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const commentsSlice = createSlice({
   name: "recipes",
   initialState,
@@ -64,6 +75,13 @@ export const commentsSlice = createSlice({
     builder.addCase(addCommentsForRecipe.rejected, (state) => {
       state.loading = false;
       state.errorComment = "Ошибка отправки комментария";
+    });
+    builder.addCase(deleteCommentById.fulfilled, (state, { payload }) => {
+      state.comments = state.comments.filter((item) => item.id !== payload.id);
+      state.loading = false;
+    });
+    builder.addCase(deleteCommentById.rejected, (state) => {
+      state.errorComment = "Ошибка удаления комментария";
     });
   },
 });

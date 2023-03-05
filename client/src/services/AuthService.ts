@@ -31,9 +31,6 @@ export default class AuthService {
     return axiosClient.post("/logout").then((resp) => resp.data);
   }
   static async getUser() {
-    return axiosClient
-      .get("/user")
-      .then((resp) => resp.data)
-      .catch((error) => error);
+    return axiosClient.get("/user").then((resp) => resp.data);
   }
 }

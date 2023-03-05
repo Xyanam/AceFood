@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { getUser } from "./redux/slices/userSlice";
+import { useAppDispatch } from "./redux/store";
 import "./App.css";
 import Header from "./components/Header/Header";
 import InfoRecipePage from "./pages/InfoRecipePage/InfoRecipePage";
@@ -8,14 +10,11 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
 import RecipesPage from "./pages/RecipesPage/RecipesPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import { getUser } from "./redux/slices/userSlice";
-import { useAppDispatch } from "./redux/store";
-import AuthService from "./services/AuthService";
 
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    AuthService.getUser().then(() => dispatch(getUser()));
+    dispatch(getUser());
   }, []);
   return (
     <div className="App">

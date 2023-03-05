@@ -71,10 +71,10 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async (_, { reject
 
 export const getUser = createAsyncThunk("user/getUser", async (_, { rejectWithValue }) => {
   try {
-    const user = await AuthService.getUser();
-    return user;
+    return await AuthService.getUser();
   } catch (error) {
-    return rejectWithValue(error);
+    const axiosError = error as AxiosError<TErrorAxios>;
+    return rejectWithValue(axiosError.message);
   }
 });
 

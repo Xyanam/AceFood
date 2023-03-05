@@ -1,8 +1,8 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addCommentsForRecipe, fetchCommentsByRecipe } from "../../redux/slices/commentsSlice";
+import { addCommentsForRecipe } from "../../redux/slices/commentsSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import PinkButton from "../UI/PinkButton/PinkButton";
 import Comment from "./Comment/Comment";
@@ -51,7 +51,7 @@ const CommentsBlock: FC = () => {
         <PinkButton onClick={addNewComment}>Отправить</PinkButton>
       </div>
       {loading ? (
-        <h1>Загразка...</h1>
+        <h1>Загрузка...</h1>
       ) : comments.length ? (
         comments.map((comment) => <Comment key={comment.id} comment={comment} />)
       ) : (
