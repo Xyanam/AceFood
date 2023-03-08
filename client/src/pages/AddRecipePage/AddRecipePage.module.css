@@ -1,0 +1,64 @@
+.wrapper {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+}
+.container {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../assets/img/backgroundAdd.png");
+  background-size: cover;
+  height: 300px;
+}
+.title h1 {
+  font-size: 32px;
+  color: #372626;
+  text-align: center;
+}
+.form {
+  width: 50%;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.formItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.formItem p {
+  font-size: 22px;
+  text-align: center;
+}
+.formItem input {
+  max-width: 400px;
+  width: 100%;
+  height: 40px;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 15px;
+  outline: none;
+  padding: 0px 20px;
+  font-size: 16px;
+  font-family: "Multiround";
+}
+.formSelect {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ingredientsSelect {
+  display: flex;
+}

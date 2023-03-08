@@ -25,7 +25,7 @@ const Header: FC = () => {
             <Link to="/recipes">Рецепты</Link>
           </li>
           <li className={classes.navItem}>
-            <Link to="/">Добавить рецепт</Link>
+            <Link to="/addrecipe">Добавить рецепт</Link>
           </li>
           <li className={classes.navItem}>
             <Link to="/">Помощь</Link>

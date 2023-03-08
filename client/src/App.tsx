@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
 import RecipesPage from "./pages/RecipesPage/RecipesPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import AddRecipePage from "./pages/AddRecipePage/AddRecipePage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/recipe/:id" element={<InfoRecipePage />} />
+        <Route path="/addrecipe" element={<AddRecipePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
