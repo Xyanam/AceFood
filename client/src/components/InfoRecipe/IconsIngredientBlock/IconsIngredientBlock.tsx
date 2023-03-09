@@ -74,7 +74,7 @@ const IconsIngredientBlock: FC = () => {
           <p>{calories} ккал</p>
         </div>
       </div>
-      <p style={{ color: "gray", fontSize: "12px" }}>КБЖУ расчитано на 1 порцию</p>
+      <p style={{ color: "gray", fontSize: "14px" }}>КБЖУ расчитано на 1 порцию</p>
       <div className={classes.ingredients}>
         {ingredients.map((ingredient, index) => (
           <p key={index}>

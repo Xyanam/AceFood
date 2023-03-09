@@ -8,25 +8,20 @@ import { fetchRecipes, setRecipes } from "../../redux/slices/recipeSlice";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../http/axios-client";
 
-type TOptionsCategory = {
-  id: number;
-  category: string;
-};
-
-type TOptionsKitchen = {
-  id: number;
-  kitchen: string;
+type TSelectOptions = {
+  label: string;
+  value: number;
 };
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [optionsCategoryState, setOptionsCategoryState] = useState<TOptionsCategory[]>([
-    { id: 0, category: "Нет" },
+  const [optionsCategory, setOptionsCategory] = useState<TSelectOptions[]>([
+    { value: 0, label: "Нет" },
   ]);
-  const [optionsKitchenState, setOptionsKitchenState] = useState<TOptionsKitchen[]>([
-    { id: 0, kitchen: "Нет" },
+  const [optionsKitchen, setOptionsKitchen] = useState<TSelectOptions[]>([
+    { value: 0, label: "Нет" },
   ]);
 
   const [categoryValue, setCategoryValue] = useState<Number>(0);
@@ -34,22 +29,12 @@ const Sidebar: FC = () => {
 
   useEffect(() => {
     axiosClient
-      .get<TOptionsCategory[]>("/category")
-      .then((response) => setOptionsCategoryState((prev) => [...prev, ...response.data]));
+      .get<TSelectOptions[]>("/category")
+      .then((response) => setOptionsCategory((prev) => [...prev, ...response.data]));
     axiosClient
-      .get<TOptionsKitchen[]>("/kitchen")
-      .then((resp) => setOptionsKitchenState((prev) => [...prev, ...resp.data]));
+      .get<TSelectOptions[]>("/kitchen")
+      .then((resp) => setOptionsKitchen((prev) => [...prev, ...resp.data]));
   }, []);
-
-  const optionsCategory = optionsCategoryState.map((option) => ({
-    label: option.category,
-    value: option.id,
-  }));
-
-  const optionsKitchen = optionsKitchenState.map((kitchen) => ({
-    label: kitchen.kitchen,
-    value: kitchen.id,
-  }));
 
   const onSubmitFilter = () => {
     const queryString = qs.stringify({
