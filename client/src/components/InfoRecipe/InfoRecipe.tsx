@@ -12,7 +12,7 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
     <div className={classes.infoFood}>
       <div className={classes.imageBlock}>
         <div className={classes.image}>
-          <img src={recipe.image} alt="recipe image" />
+          <img src={`data:image/png;base64,${recipe.image}`} alt="recipe image" />
         </div>
         <div className={classes.author}>
           <div className={classes.avatarAuthor}></div>

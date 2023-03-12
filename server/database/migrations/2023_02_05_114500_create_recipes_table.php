@@ -20,10 +20,11 @@ return new class extends Migration
             $table->foreignId('kitchen_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->integer('calories')->nullable();
+            $table->integer('cookingTime');
             $table->integer('rating')->nullable();
             $table->integer('portion');
             $table->char('image')->nullable();
+            $table->char('moderated');
             $table->timestamps();
         });
     }

@@ -30,6 +30,7 @@ Route::get('/recipes/{id}/ingredients', [RecipeController::class, 'getIngredient
 Route::get('/recipes/{id}/comments', [RecipeController::class, 'getComments']);
 Route::post('/recipes/{id}/comments', [CommentController::class, 'createComment']);
 Route::post('/recipes/deleteComment', [CommentController::class, 'deleteComment']);
+Route::post('/addrecipe', [RecipeController::class, 'addRecipe']);
 Route::get('/kitchen', [KitchenController::class, 'index']);
 Route::get('/category', [CategoryController::class, 'index']);
 Route::get('/ingredients', [IngredientController::class, 'getIngredients']);

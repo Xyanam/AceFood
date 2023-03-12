@@ -1,15 +1,13 @@
+import { INewRecipeData } from "./../../types/INewRecipe";
 import { recipe } from "./../../types/TRecipe";
 import { Ingredient } from "../../types/TIngredient";
-import { IComments } from "../../types/IComments";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axiosClient from "../../http/axios-client";
 import RecipeService from "../../services/RecipeService";
 
 interface recipeSliceState {
   recipes: recipe[];
   recipe: recipe;
   ingredients: Ingredient[];
-  comments: IComments[];
   loading: boolean;
   error: null | string;
 }
@@ -18,7 +16,6 @@ const initialState: recipeSliceState = {
   recipes: [],
   recipe: {} as recipe,
   ingredients: [],
-  comments: [],
   loading: false,
   error: null,
 };
@@ -39,10 +36,7 @@ export const fetchRecipeById = createAsyncThunk<recipe, string>(
   "recipes/fetchRecipe",
   async (recipeId, { rejectWithValue }) => {
     try {
-      const recipe = await axiosClient
-        .get<recipe>(`/recipes/${recipeId}`)
-        .then((response) => response.data);
-      return recipe;
+      return RecipeService.getRecipeById(recipeId);
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -53,22 +47,18 @@ export const fetchIngredientsByRecipe = createAsyncThunk<Ingredient[], string>(
   "recipes/fetchIngredient",
   async (recipeId, { rejectWithValue }) => {
     try {
-      const ingredients = await axiosClient
-        .get<Ingredient[]>(`/recipes/${recipeId}/ingredients`)
-        .then((response) => response.data);
-      return ingredients;
+      return RecipeService.getIngredientByRecipe(recipeId);
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
 
-export const fetchCommentsByRecipe = createAsyncThunk<IComments[], string>(
-  "recipes/fetchComments",
-  async (recipeId, { rejectWithValue }) => {
+export const addNewRecipe = createAsyncThunk<string, INewRecipeData>(
+  "recipes/addNewrecipe",
+  async (data, { rejectWithValue }) => {
     try {
-      const comments = await RecipeService.getCommentsByRecipe(recipeId);
-      return comments;
+      return RecipeService.addNewRecipe(data);
     } catch (error) {
       return rejectWithValue(error);
     }

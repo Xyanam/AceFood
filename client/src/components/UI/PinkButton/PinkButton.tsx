@@ -3,7 +3,7 @@ import classes from "./PinkButton.module.css";
 
 type PinkButtonProps = {
   children: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   width?: string;
   height?: string;
   fontSize?: string;

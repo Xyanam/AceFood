@@ -1,7 +1,8 @@
-import { CommentRecipeData } from "./../../services/RecipeService";
+import { CommentRecipeData } from "./../../services/CommentService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import RecipeService from "../../services/RecipeService";
 import { IComments } from "../../types/IComments";
+import CommentService from "../../services/CommentService";
 
 interface ICommentsSliceState {
   comments: IComments[];
@@ -19,7 +20,7 @@ export const fetchCommentsByRecipe = createAsyncThunk<IComments[], string>(
   "comments/fetchComments",
   async (recipeId, { rejectWithValue }) => {
     try {
-      const comments = await RecipeService.getCommentsByRecipe(recipeId);
+      const comments = await CommentService.getCommentsByRecipe(recipeId);
       return comments;
     } catch (error) {
       return rejectWithValue(error);
@@ -31,7 +32,7 @@ export const addCommentsForRecipe = createAsyncThunk<IComments, CommentRecipeDat
   "comments/createComment",
   async (data, { rejectWithValue }) => {
     try {
-      const newComments = await RecipeService.addCommentsByRecipe(data);
+      const newComments = await CommentService.addCommentsByRecipe(data);
       return newComments;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,7 +44,7 @@ export const deleteCommentById = createAsyncThunk<IComments, number>(
   "comments/deleteComment",
   async (id, { rejectWithValue }) => {
     try {
-      return await RecipeService.deleteCommentById(id);
+      return await CommentService.deleteCommentById(id);
     } catch (error) {
       return rejectWithValue(error);
     }

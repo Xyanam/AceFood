@@ -1,13 +1,7 @@
 import axiosClient from "../http/axios-client";
-import { IComments } from "../types/IComments";
+import { INewRecipeData } from "../types/INewRecipe";
 import { Ingredient } from "../types/TIngredient";
 import { recipe } from "../types/TRecipe";
-
-export type CommentRecipeData = {
-  user_id: string;
-  recipe_id: string | undefined;
-  text: string;
-};
 
 export default class RecipeService {
   static async getRecipes() {
@@ -21,19 +15,11 @@ export default class RecipeService {
       .get<Ingredient[]>(`/recipes/${recipeID}/ingredients`)
       .then((response) => response.data);
   }
-  static async getCommentsByRecipe(recipeID: string) {
+  static async addNewRecipe(recipeData: INewRecipeData) {
     return axiosClient
-      .get<IComments[]>(`/recipes/${recipeID}/comments`)
-      .then((response) => response.data);
-  }
-  static async addCommentsByRecipe(data: CommentRecipeData) {
-    return axiosClient
-      .post(`/recipes/${data.recipe_id}/comments`, data)
-      .then((response) => response.data);
-  }
-  static async deleteCommentById(id: number) {
-    return axiosClient
-      .post(`/recipes/deleteComment`, { comment_id: id })
-      .then((response) => response.data);
+      .post("/addrecipe", recipeData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((resp) => resp.data);
   }
 }

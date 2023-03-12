@@ -1,13 +1,21 @@
 import { FC, useMemo, useState } from "react";
 import classes from "./IconsIngredientBlock.module.css";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState, useAppDispatch } from "../../../redux/store";
 
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
 
   const [portion, setPortion] = useState(recipe.portion);
-
+  const ingredientsRecipe = ingredients.map((ingredient, index) => {
+    const amountPerPortion = +ingredient.amount / recipe.portion;
+    const newAmount = Math.round(amountPerPortion * portion);
+    return (
+      <p key={index}>
+        {ingredient.ingredient}: {newAmount} {ingredient.measure}
+      </p>
+    );
+  });
   const calories = useMemo(() => {
     return ingredients.reduce((a, b) => Math.round(a + (b.calories / 100) * +b.amount), 0);
   }, [ingredients]);
@@ -75,13 +83,7 @@ const IconsIngredientBlock: FC = () => {
         </div>
       </div>
       <p style={{ color: "gray", fontSize: "14px" }}>КБЖУ расчитано на 1 порцию</p>
-      <div className={classes.ingredients}>
-        {ingredients.map((ingredient, index) => (
-          <p key={index}>
-            {ingredient.ingredient}: {+ingredient.amount * portion} {ingredient.measure}
-          </p>
-        ))}
-      </div>
+      <div className={classes.ingredients}>{ingredientsRecipe}</div>
       <div className={classes.calculatePortion}>
         <p style={{ fontSize: "12px" }}>Порции</p>
         <div className={classes.calculate} onClick={decrementPortion}>

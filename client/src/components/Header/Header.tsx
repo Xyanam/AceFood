@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
-import logo2 from "../../assets/img/acefood2.gif";
+import logo from "../../assets/img/acefood.gif";
 import arrow from "../../assets/img/arrow.svg";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ const Header: FC = () => {
     <header className={classes.header}>
       <nav className={classes.nav}>
         <Link to="/" className={classes.logo}>
-          <img src={logo2} alt="logo" />
+          <img src={logo} alt="logo" />
         </Link>
         <ul className={classes.navigation}>
           <li className={classes.navItem}>

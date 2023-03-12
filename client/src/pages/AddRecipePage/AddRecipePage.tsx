@@ -2,10 +2,23 @@ import { FC, useEffect, useState } from "react";
 import Select, { CSSObjectWithLabel } from "react-select";
 import axiosClient from "../../http/axios-client";
 import classes from "./AddRecipePage.module.css";
+import deleteIcon from "../../assets/img/delete.svg";
+import PinkButton from "../../components/UI/PinkButton/PinkButton";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { addNewRecipe } from "../../redux/slices/recipeSlice";
+import { INewRecipeData } from "../../types/INewRecipe";
 
 type TSelectOptions = {
   label: string;
   value: number;
+};
+
+type ingredientRecipeData = {
+  ingredient_id: number;
+  amount: string;
+  measure: number;
 };
 
 const stylesSelect = {
@@ -20,6 +33,9 @@ const stylesSelect = {
 };
 
 const AddRecipePage: FC = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
+
   // Options select
   const [optionsCategory, setOptionsCategory] = useState<TSelectOptions[]>([]);
   const [optionsKitchen, setOptionsKitchen] = useState<TSelectOptions[]>([]);
@@ -27,8 +43,8 @@ const AddRecipePage: FC = () => {
   const [selectMeasuresOptions, setSelectMeasuresOptions] = useState<TSelectOptions[]>([]);
 
   // Value select
-  const [categoryValue, setCategoryValue] = useState<Number>(0);
-  const [kitchenValue, setKitchenValue] = useState<Number>(0);
+  const [categoryValue, setCategoryValue] = useState<number>(0);
+  const [kitchenValue, setKitchenValue] = useState<number>(0);
   const [selectCountIngredients, setSelectCountIngredients] = useState(2);
   const [selectIngredients, setSelectIngredients] = useState(
     Array(selectCountIngredients).fill(null)
@@ -40,6 +56,9 @@ const AddRecipePage: FC = () => {
   const [amountValue, setAmountValue] = useState<string[]>([]);
   const [titleRecipe, setTitleRecipe] = useState("");
   const [cookingTime, setCookingTime] = useState("");
+  const [cookingMethod, setCookingMethod] = useState("");
+  const [portion, setPortion] = useState(1);
+  const [image, setImage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
@@ -66,7 +85,7 @@ const AddRecipePage: FC = () => {
     setSelectCountIngredients(selectCountIngredients + 1);
   };
 
-  const handleRemoveIngredient = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+  const handleRemoveIngredient = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
     const ingredients = [...selectIngredients];
     ingredients.splice(index, 1);
@@ -74,19 +93,68 @@ const AddRecipePage: FC = () => {
     setSelectCountIngredients(selectCountIngredients - 1);
   };
 
-  const sendData = () => {
-    const recipeData = {
-      recipeName: titleRecipe,
-      kitchen: kitchenValue,
-      category: categoryValue,
-      cookingTime,
-      ingredients: selectIngredients.map((ingredient, index) => ({
-        ingredient_id: ingredient.value,
-        amount: amountValue[index],
-        measure: selectMeasure[index].value,
-      })),
+  const decrementPortion = () => {
+    if (portion > 1) {
+      setPortion((prev) => prev - 1);
+    }
+  };
+  const incrementPortion = () => {
+    if (portion < 12) {
+      setPortion((prev) => prev + 1);
+    }
+  };
+
+  const handleAddNewRecipe = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    const ingredients: ingredientRecipeData[] = selectIngredients.map((ingredient, index) => ({
+      ingredient_id: ingredient.value,
+      amount: amountValue[index],
+      measure: selectMeasure[index].value,
+    }));
+    formData.append("recipeName", titleRecipe);
+    formData.append("kitchen", kitchenValue.toString());
+    formData.append("category", categoryValue.toString());
+    formData.append("user_id", user.id);
+    formData.append("cookingTime", cookingTime);
+    formData.append("cookingMethod", cookingMethod);
+    formData.append("portion", portion.toString());
+    formData.append("rating", "0");
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("recipePicture", image);
+
+    const recipeData: INewRecipeData = {
+      recipeName: formData.get("recipeName") as string,
+      kitchen: formData.get("kitchen") as string,
+      category: formData.get("category") as string,
+      user_id: formData.get("user_id") as string,
+      cookingTime: formData.get("cookingTime") as string,
+      cookingMethod: formData.get("cookingMethod") as string,
+      portion: formData.get("portion") as string,
+      rating: formData.get("rating") as string,
+      ingredients: formData.get("ingredients") as string,
+      recipePicture: formData.get("recipePicture") as File,
     };
-    console.log(recipeData);
+    toast.promise(
+      dispatch(addNewRecipe(recipeData)),
+      {
+        pending: "Загрузка...",
+        success:
+          'Спасибо что поделились рецептом! Сейчас он находится в обработке, как только его одобрят, вам придет оповещение"',
+        error: "Ошибка добавления рецепта",
+      },
+      {
+        autoClose: 10000,
+        closeOnClick: true,
+        style: {
+          width: 450,
+          height: 90,
+          right: 50,
+          textAlign: "center",
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -111,7 +179,6 @@ const AddRecipePage: FC = () => {
 
   return (
     <div className={classes.wrapper}>
-      <button onClick={sendData}>SEND DATA</button>
       <div className={classes.title}>
         <h1>
           Поделитесь вашим
@@ -119,7 +186,10 @@ const AddRecipePage: FC = () => {
         </h1>
       </div>
       <div className={classes.container}>
-        <form className={classes.form}>
+        <form
+          className={classes.form}
+          encType="multipart/form-data"
+          onSubmit={(e) => handleAddNewRecipe(e)}>
           <div className={classes.formItem}>
             <p>1. Введите название блюда</p>
             <input
@@ -193,12 +263,48 @@ const AddRecipePage: FC = () => {
                     placeholder="Ед. изм."
                   />
                   {selectCountIngredients > 2 && (
-                    <button onClick={(e) => handleRemoveIngredient(e, index)}>Удалить</button>
+                    <div
+                      className={classes.deleteIcon}
+                      onClick={(e) => handleRemoveIngredient(e, index)}>
+                      <img src={deleteIcon} alt="delete" />
+                    </div>
                   )}
                 </div>
               ))}
             </>
-            <button onClick={handleAddIngredient}>Добавить ингредиент</button>
+            <button onClick={handleAddIngredient} className={classes.addIngredient}>
+              Добавить ингредиент
+            </button>
+          </div>
+          <div className={classes.calculatePortion}>
+            <p style={{ fontSize: "16px", marginRight: "10px" }}>Порции</p>
+            <div className={classes.calculate} onClick={decrementPortion}>
+              -
+            </div>
+            <div className={classes.portion}>{portion}</div>
+            <div className={classes.calculate} onClick={incrementPortion}>
+              +
+            </div>
+          </div>
+          <div className={classes.formItem}>
+            <p>
+              5. Опишите пошагово
+              <br /> способ приготовления
+            </p>
+            <textarea
+              className={classes.cookingMethod}
+              value={cookingMethod}
+              onChange={(e) => setCookingMethod(e.target.value)}
+              placeholder="Ваше описание"
+            />
+          </div>
+          <div className={classes.formItem}>
+            <input type="file" onChange={(e: any) => setImage(e.target.files[0])} />
+          </div>
+          <div className={classes.formItem}>
+            <PinkButton fontSize="16px" width="300px">
+              Отправить на модерацию
+            </PinkButton>
           </div>
         </form>
       </div>

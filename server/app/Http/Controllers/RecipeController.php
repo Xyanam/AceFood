@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use App\Models\RecipeIngredient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,21 +25,30 @@ class RecipeController extends Controller
 
         if ($search) {
             $builder->where('recipes.title', 'like', "%{$search}%");
+            $builder->where('recipes.moderated', '=', 'approved');
         }
         if ($kitchen) {
             $builder->where('kitchens.id', '=', "{$kitchen}");
+            $builder->where('recipes.moderated', '=', 'approved');
         }
         if ($category) {
             $builder->where('categories.id', '=', "$category");
+            $builder->where('recipes.moderated', '=', 'approved');
         }
         if ($kitchen && $category && $search) {
             $builder->where([
                 ['kitchens.id', '=', "$kitchen"],
                 ['categories.id', '=', "$category"],
-                ['recipes.title', 'like', "%{$search}%"]
+                ['recipes.title', 'like', "%{$search}%"],
+                ['recipes.moderated', '=', 'approved']
             ]);
         }
-        return $builder->get();
+
+        $recipes = $builder->where('recipes.moderated', '=', 'approved')->get();
+        foreach ($recipes as $recipe) {
+            $recipe->image = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipe->image)));
+        }
+        return $recipes;
         // ToDo paginate
     }
     public function show($id)
@@ -50,7 +60,9 @@ class RecipeController extends Controller
             ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name')
             ->where('recipes.id', '=', "{$id}")
             ->first();
-        return $recipe;
+        $recipeArray = (array) $recipe;
+        $recipeArray['image'] = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipeArray['image'])));
+        return $recipeArray;
     }
     public function getIngredients($id)
     {
@@ -77,5 +89,36 @@ class RecipeController extends Controller
         });
 
         return $comments;
+    }
+
+    public function addRecipe(Request $request)
+    {
+        $path = null;
+        if ($request->hasFile('recipePicture')) {
+            $path = $request->file('recipePicture')->store('public/recipe-pictures');
+            $path = Storage::url($path);
+        }
+        $recipeId = DB::table('recipes')->insertGetId([
+            'title' => $request['recipeName'],
+            'kitchen_id' => $request['kitchen'],
+            'category_id' => $request['category'],
+            'user_id' => $request['user_id'],
+            'cookingTime' => $request['cookingTime'],
+            'text' => $request['cookingMethod'],
+            'portion' => $request['portion'],
+            'image' => $path,
+            'rating' => $request['rating'],
+            'moderated' => 'pending'
+        ]);
+        $ingredients = json_decode($request['ingredients'], true);
+        foreach ($ingredients as $ingredient) {
+            RecipeIngredient::insert([
+                'recipe_id' => $recipeId,
+                'ingredient_id' => $ingredient['ingredient_id'],
+                'measure_id' => $ingredient['measure'],
+                'amount' => $ingredient['amount'],
+            ]);
+        }
+        return response('', 200);
     }
 }
