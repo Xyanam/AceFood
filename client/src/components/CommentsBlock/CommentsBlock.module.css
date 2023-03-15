@@ -41,3 +41,7 @@
 .newCommentInput button {
   margin-top: 20px;
 }
+.empty {
+  color: gray;
+  font-size: 15px;
+}

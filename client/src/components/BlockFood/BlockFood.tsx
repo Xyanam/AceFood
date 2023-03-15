@@ -11,7 +11,11 @@ const BlockFood: FC<BlockFoodProps> = ({ recipe }) => {
   return (
     <div className={classes.block}>
       <Link to={`/recipe/${recipe.id}`}>
-        <img src={`data:image/png;base64,${recipe.image}`} alt="food" className={classes.img} />
+        <img
+          src={`data:image/png;base64,${recipe.recipeImage}`}
+          alt="food"
+          className={classes.img}
+        />
         <div className={classes.infoFood}>
           <div className={classes.titleBlock}>
             <h1 className={classes.title}>{recipe.title}</h1>

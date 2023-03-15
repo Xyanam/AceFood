@@ -1,8 +1,7 @@
 .infoFood {
   display: flex;
-  margin-top: 40px;
+  margin-top: 20px;
 }
-
 .image {
   width: 400px;
   height: 400px;
@@ -22,8 +21,13 @@
 .avatarAuthor {
   width: 100px;
   height: 100px;
-  background-color: gray;
   border-radius: 50%;
+}
+.avatarAuthor img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .author p {
   font-size: 18px;

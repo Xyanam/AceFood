@@ -55,7 +55,7 @@ const CommentsBlock: FC = () => {
       ) : comments.length ? (
         comments.map((comment) => <Comment key={comment.id} comment={comment} />)
       ) : (
-        <h3 style={{ color: "gray" }}>Тут пусто! Оставьте комментарий первым!</h3>
+        <h3 className={classes.empty}>Тут пусто! Оставьте комментарий первым!</h3>
       )}
       {errorComment && errorComment}
     </div>

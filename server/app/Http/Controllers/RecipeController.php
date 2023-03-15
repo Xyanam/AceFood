@@ -46,7 +46,7 @@ class RecipeController extends Controller
 
         $recipes = $builder->where('recipes.moderated', '=', 'approved')->get();
         foreach ($recipes as $recipe) {
-            $recipe->image = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipe->image)));
+            $recipe->recipeImage = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipe->recipeImage)));
         }
         return $recipes;
         // ToDo paginate
@@ -57,10 +57,11 @@ class RecipeController extends Controller
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->join('users', 'user_id', '=', 'users.id')
-            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', 'users.image')
             ->where('recipes.id', '=', "{$id}")
             ->first();
         $recipeArray = (array) $recipe;
+        $recipeArray['recipeImage'] = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipeArray['recipeImage'])));
         $recipeArray['image'] = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipeArray['image'])));
         return $recipeArray;
     }
@@ -106,7 +107,8 @@ class RecipeController extends Controller
             'cookingTime' => $request['cookingTime'],
             'text' => $request['cookingMethod'],
             'portion' => $request['portion'],
-            'image' => $path,
+            'weight' => $request['weight'],
+            'recipeImage' => $path,
             'rating' => $request['rating'],
             'moderated' => 'pending'
         ]);

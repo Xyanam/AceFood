@@ -1,9 +1,3 @@
-type TIngredients = {
-  ingredient_id: number;
-  amount: string;
-  measure: number;
-};
-
 export interface INewRecipeData {
   recipeName: string;
   kitchen: string;
@@ -15,4 +9,5 @@ export interface INewRecipeData {
   rating: string;
   ingredients: string;
   recipePicture: File;
+  weight: string;
 }

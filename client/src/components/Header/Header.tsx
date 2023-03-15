@@ -10,7 +10,7 @@ import { logoutUser } from "../../redux/slices/userSlice";
 
 const Header: FC = () => {
   const { isAuth } = useAuth();
-  const { user, loading } = useSelector((state: RootState) => state.user);
+  const { user, loading, error } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const [activeArrow, setActiveArrow] = useState(false);
 

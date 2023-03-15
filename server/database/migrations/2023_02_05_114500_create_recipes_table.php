@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('cookingTime');
             $table->integer('rating')->nullable();
             $table->integer('portion');
+            $table->integer('weight');
             $table->char('image')->nullable();
             $table->char('moderated');
             $table->timestamps();

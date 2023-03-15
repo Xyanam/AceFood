@@ -2,6 +2,10 @@
   font-family: "Multiround";
   src: local("Multiround"), url("./assets/fonts/MultiroundPro.otf") format("opentype");
 }
+@font-face {
+  font-family: "Comfortaa";
+  src: local("Comfortaa"), url("./assets/fonts/Comfortaa.ttf") format("truetype");
+}
 
 body {
   margin: 0;

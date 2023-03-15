@@ -59,6 +59,7 @@ const AddRecipePage: FC = () => {
   const [cookingMethod, setCookingMethod] = useState("");
   const [portion, setPortion] = useState(1);
   const [image, setImage] = useState("");
+  const [weight, setWeight] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
@@ -123,6 +124,7 @@ const AddRecipePage: FC = () => {
     formData.append("rating", "0");
     formData.append("ingredients", JSON.stringify(ingredients));
     formData.append("recipePicture", image);
+    formData.append("weight", weight);
 
     const recipeData: INewRecipeData = {
       recipeName: formData.get("recipeName") as string,
@@ -135,6 +137,7 @@ const AddRecipePage: FC = () => {
       rating: formData.get("rating") as string,
       ingredients: formData.get("ingredients") as string,
       recipePicture: formData.get("recipePicture") as File,
+      weight: formData.get("weight") as string,
     };
     toast.promise(
       dispatch(addNewRecipe(recipeData)),
@@ -288,7 +291,19 @@ const AddRecipePage: FC = () => {
           </div>
           <div className={classes.formItem}>
             <p>
-              5. Опишите пошагово
+              5. Вес готового блюда <br /> (в граммах)
+            </p>
+            <input
+              className={classes.input}
+              placeholder="Укажите вес в граммах"
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+            />
+          </div>
+          <div className={classes.formItem}>
+            <p>
+              6. Опишите пошагово
               <br /> способ приготовления
             </p>
             <textarea

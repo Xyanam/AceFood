@@ -1,7 +1,9 @@
 import { FC, useMemo, useState } from "react";
 import classes from "./IconsIngredientBlock.module.css";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
+import { Ingredient } from "../../../types/TIngredient";
+import { recipe } from "../../../types/TRecipe";
 
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
@@ -9,27 +11,24 @@ const IconsIngredientBlock: FC = () => {
   const [portion, setPortion] = useState(recipe.portion);
   const ingredientsRecipe = ingredients.map((ingredient, index) => {
     const amountPerPortion = +ingredient.amount / recipe.portion;
-    const newAmount = Math.round(amountPerPortion * portion);
+    const newAmount = Math.round(amountPerPortion * portion * 2) / 2;
     return (
       <p key={index}>
         {ingredient.ingredient}: {newAmount} {ingredient.measure}
       </p>
     );
   });
-  const calories = useMemo(() => {
-    return ingredients.reduce((a, b) => Math.round(a + (b.calories / 100) * +b.amount), 0);
-  }, [ingredients]);
 
-  const proteins = useMemo(() => {
-    return ingredients.reduce((a, b) => Math.round(a + (b.proteins / 100) * +b.amount), 0);
-  }, [ingredients]);
-
-  const fats = useMemo(() => {
-    return ingredients.reduce((a, b) => Math.round(a + (b.fats / 100) * +b.amount), 0);
-  }, [ingredients]);
-  const carbohydrates = useMemo(() => {
-    return ingredients.reduce((a, b) => Math.round(a + (b.carbohydrates / 100) * +b.amount), 0);
-  }, [ingredients]);
+  const calculateTotal = (ingredients: Ingredient[], recipe: recipe, property: string) => {
+    return useMemo(() => {
+      return ingredients.reduce((a, b) => {
+        const value = a + b[property];
+        const weightPerPortion = +recipe.weight / recipe.portion;
+        const weightAllIngredients = 100 * ingredients.length;
+        return +(a + (value * weightPerPortion) / weightAllIngredients).toFixed(1);
+      }, 0);
+    }, [ingredients]);
+  };
 
   const decrementPortion = () => {
     if (portion > 1) {
@@ -49,7 +48,7 @@ const IconsIngredientBlock: FC = () => {
           <div className={classes.icon}>
             <img src="" alt="" />
           </div>
-          <p>да</p>
+          <p>{recipe.cookingTime} минут</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
@@ -61,28 +60,30 @@ const IconsIngredientBlock: FC = () => {
           <div className={classes.icon}>
             <img src="" alt="" />
           </div>
-          <p>{proteins} гр</p>
+          <p>{calculateTotal(ingredients, recipe, "proteins")} гр</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
             <img src="" alt="" />
           </div>
-          <p>{fats} гр</p>
+          <p>{calculateTotal(ingredients, recipe, "fats")} гр</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
             <img src="" alt="" />
           </div>
-          <p>{carbohydrates} гр</p>
+          <p>{calculateTotal(ingredients, recipe, "carbohydrates")} гр</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
             <img src="" alt="" />
           </div>
-          <p>{calories} ккал</p>
+          <p>{calculateTotal(ingredients, recipe, "calories")} ккал</p>
         </div>
       </div>
-      <p style={{ color: "gray", fontSize: "14px" }}>КБЖУ расчитано на 1 порцию</p>
+      <p style={{ color: "gray", fontSize: "14px" }}>
+        КБЖУ расчитано на 1 порцию (~{+recipe.weight / recipe.portion} гр)
+      </p>
       <div className={classes.ingredients}>{ingredientsRecipe}</div>
       <div className={classes.calculatePortion}>
         <p style={{ fontSize: "12px" }}>Порции</p>

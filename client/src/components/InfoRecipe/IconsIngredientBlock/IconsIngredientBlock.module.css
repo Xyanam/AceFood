@@ -25,11 +25,9 @@
   margin-bottom: 40px;
   font-size: 18px;
 }
-
 .cooking__method {
   width: 100%;
 }
-
 .title {
   width: 100%;
   display: flex;
@@ -41,8 +39,11 @@
   font-size: 30px;
 }
 .steps p {
-  font-size: 18px;
+  font-size: 20px;
   white-space: pre-wrap;
+  letter-spacing: 0.5px;
+  font-family: "Comfortaa";
+  font-weight: 700;
 }
 .calculatePortion {
   display: flex;
