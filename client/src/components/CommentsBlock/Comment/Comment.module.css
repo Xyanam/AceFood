@@ -26,6 +26,8 @@
   margin-top: 20px;
   width: 100%;
   white-space: pre-wrap;
+  font-family: "Comfortaa";
+  font-weight: 700;
 }
 .date {
   color: gray;

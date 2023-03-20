@@ -44,8 +44,13 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
+.descFood {
+  display: flex;
+  justify-content: space-between;
+}
 .descFood p {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
+  font-family: "Comfortaa";
+  font-weight: 500;
 }

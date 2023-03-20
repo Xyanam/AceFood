@@ -12,9 +12,12 @@
   margin-right: 15px;
 }
 .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 160px;
   height: 160px;
-  background-color: gray;
+  /* background-color: gray; */
 }
 .ingredients {
   columns: 2;
@@ -48,7 +51,7 @@
 .calculatePortion {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .calculate {
   margin: 0 10px;

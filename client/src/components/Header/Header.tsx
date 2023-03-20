@@ -1,8 +1,10 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useState } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/acefood.gif";
 import arrow from "../../assets/img/arrow.svg";
+import profileIcon from "../../assets/img/profile.svg";
+import logoutIcon from "../../assets/img/logout.svg";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -36,23 +38,35 @@ const Header: FC = () => {
             isAuth ? (
               <div className={classes.user} onClick={() => setActiveArrow(!activeArrow)}>
                 <div className={classes.avatar}>
-                  <img src={`data:image/png;base64,${user.image}`} alt="" />
+                  <img src={`data:image/png;base64,${user.image}`} alt="avatar" />
                 </div>
                 <p className={classes.login}>{user.name}</p>
                 <img src={arrow} className={!activeArrow ? classes.arrowActive : classes.arrow} />
                 {activeArrow && (
                   <div className={classes.popup} onClick={(e) => e.stopPropagation()}>
-                    <Link to="/recipes" className={classes.popupItem}>
-                      Профиль
-                    </Link>
-                    <p
-                      className={classes.popupItem}
-                      onClick={() => {
-                        dispatch(logoutUser());
-                        setActiveArrow(false);
-                      }}>
-                      Выйти
-                    </p>
+                    <div className={classes.infoUser}>
+                      <div className={classes.avatarUser}>
+                        <img src={`data:image/png;base64,${user.image}`} alt="avatar" />
+                      </div>
+                      <div className={classes.userData}>
+                        <p className={classes.name}>{user.name}</p>
+                        <p className={classes.email}>{user.email}</p>
+                      </div>
+                    </div>
+                    <div className={classes.popupItem}>
+                      <img src={profileIcon} alt="profileIcon" />
+                      <Link to="/recipes">Профиль</Link>
+                    </div>
+                    <div className={classes.popupItem}>
+                      <img src={logoutIcon} alt="profileIcon" />
+                      <p
+                        onClick={() => {
+                          dispatch(logoutUser());
+                          setActiveArrow(false);
+                        }}>
+                        Выйти
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>

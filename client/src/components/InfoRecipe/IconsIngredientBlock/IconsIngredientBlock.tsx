@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { Ingredient } from "../../../types/TIngredient";
 import { recipe } from "../../../types/TRecipe";
+import carbohydratesIcon from "../../../assets/img/carbo.svg";
+import fatsIcon from "../../../assets/img/fats.svg";
 
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
@@ -64,13 +66,13 @@ const IconsIngredientBlock: FC = () => {
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={fatsIcon} alt="fats" />
           </div>
           <p>{calculateTotal(ingredients, recipe, "fats")} гр</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={carbohydratesIcon} alt="carbohydrates" />
           </div>
           <p>{calculateTotal(ingredients, recipe, "carbohydrates")} гр</p>
         </div>
