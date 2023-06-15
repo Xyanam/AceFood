@@ -11,6 +11,10 @@ import MainPage from "./pages/MainPage/MainPage";
 import RecipesPage from "./pages/RecipesPage/RecipesPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import AddRecipePage from "./pages/AddRecipePage/AddRecipePage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import UserProfileRecipes from "./components/UserProfileRecipes/UserProfileRecipes";
+import UserProfileFavourite from "./components/UserProfileFavourite/UserProfileFavourite";
+import AdminPage from "./pages/AdminPage/AdminPage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,6 +30,11 @@ function App() {
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/recipe/:id" element={<InfoRecipePage />} />
         <Route path="/addrecipe" element={<AddRecipePage />} />
+        <Route path="/profile/:id" element={<ProfilePage />}>
+          <Route path="" element={<UserProfileRecipes />} />
+          <Route path="favourites" element={<UserProfileFavourite />} />
+        </Route>
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

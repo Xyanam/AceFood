@@ -29,6 +29,12 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.author a {
+  font-size: 18px;
+  margin: 10px;
+  color: black;
+  text-decoration: none;
+}
 .author p {
   font-size: 18px;
   margin: 10px;

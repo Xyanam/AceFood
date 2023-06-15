@@ -7,6 +7,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\MeasureController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +32,10 @@ Route::get('/recipes/{id}/comments', [RecipeController::class, 'getComments']);
 Route::post('/recipes/{id}/comments', [CommentController::class, 'createComment']);
 Route::post('/recipes/deleteComment', [CommentController::class, 'deleteComment']);
 Route::post('/addrecipe', [RecipeController::class, 'addRecipe']);
+
 Route::get('/kitchen', [KitchenController::class, 'index']);
 Route::get('/category', [CategoryController::class, 'index']);
 Route::get('/ingredients', [IngredientController::class, 'getIngredients']);
 Route::get('/measure', [MeasureController::class, 'getMeasures']);
+
+Route::get('/userProfile/{id}', [UserController::class, 'show']);

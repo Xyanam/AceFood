@@ -43,6 +43,7 @@ const LoginPage: FC = () => {
       password: formData.get("password") as string,
       password_confirmation: formData.get("password_confirmation") as string,
       profilePicture: formData.get("profilePicture") as File,
+      role: "user",
     };
 
     e.preventDefault();

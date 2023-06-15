@@ -2,6 +2,7 @@ import { FC } from "react";
 import { recipe } from "../../types/TRecipe";
 import classes from "./InfoRecipe.module.css";
 import IconsIngredientBlock from "./IconsIngredientBlock/IconsIngredientBlock";
+import { Link } from "react-router-dom";
 
 type InfoRecipeProps = {
   recipe: recipe;
@@ -19,7 +20,7 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
             <img src={`data:image/png;base64,${recipe.image}`} alt="" />
           </div>
           <div className={classes.infoAuthor}>
-            <p>{recipe.name}</p>
+            <Link to={`/profile/${recipe.user_id}`}>{recipe.name}</Link>
             <p>Уровень: Бог кулинарии</p>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import classes from "./BlockFood.module.css";
 import { recipe } from "../../types/TRecipe";
 import { Link } from "react-router-dom";

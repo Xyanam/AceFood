@@ -5,6 +5,7 @@ import logo from "../../assets/img/acefood.gif";
 import arrow from "../../assets/img/arrow.svg";
 import profileIcon from "../../assets/img/profile.svg";
 import logoutIcon from "../../assets/img/logout.svg";
+import adminIcon from "../../assets/img/admin.png";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -55,8 +56,14 @@ const Header: FC = () => {
                     </div>
                     <div className={classes.popupItem}>
                       <img src={profileIcon} alt="profileIcon" />
-                      <Link to="/recipes">Профиль</Link>
+                      <Link to={`/profile/${user.id}`}>Профиль</Link>
                     </div>
+                    {user.role === "admin" && (
+                      <div className={classes.popupItem}>
+                        <img src={adminIcon} alt="profileIcon" />
+                        <Link to="/admin">Админ панель</Link>
+                      </div>
+                    )}
                     <div className={classes.popupItem}>
                       <img src={logoutIcon} alt="profileIcon" />
                       <p

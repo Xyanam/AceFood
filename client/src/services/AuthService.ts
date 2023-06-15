@@ -7,6 +7,7 @@ export type DataRegister = {
   password: string;
   password_confirmation: string;
   profilePicture: File;
+  role: string;
 };
 
 export type DataLogin = {

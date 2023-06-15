@@ -1,0 +1,57 @@
+.wrapper {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url("../../assets/img/bback.png");
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+.userProfile {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.user {
+  display: flex;
+}
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+.userImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.name {
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.name p {
+  margin: 10px 0;
+}
+.navRecipe {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 80px;
+}
+.nav {
+  display: flex;
+}
+.navItem {
+  margin-left: 50px;
+  color: black;
+  text-decoration: none;
+}
+.navItem.activeNavItem {
+  text-decoration: none;
+  border-bottom: 2px solid black;
+  padding-bottom: 5px;
+}

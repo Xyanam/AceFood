@@ -6,6 +6,10 @@ import { Ingredient } from "../../../types/TIngredient";
 import { recipe } from "../../../types/TRecipe";
 import carbohydratesIcon from "../../../assets/img/carbo.svg";
 import fatsIcon from "../../../assets/img/fats.svg";
+import proteinsIcon from "../../../assets/img/proteins.svg";
+import caloriesIcon from "../../../assets/img/calories.svg";
+import timeIcon from "../../../assets/img/time.svg";
+import kitchenIcon from "../../../assets/img/kitchen.png";
 
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
@@ -48,19 +52,19 @@ const IconsIngredientBlock: FC = () => {
       <div className={classes.icons}>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={timeIcon} alt="time" />
           </div>
           <p>{recipe.cookingTime} минут</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={kitchenIcon} alt="kitchen" className={classes.time} />
           </div>
           <p>{recipe.kitchen}</p>
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={proteinsIcon} alt="proteins" />
           </div>
           <p>{calculateTotal(ingredients, recipe, "proteins")} гр</p>
         </div>
@@ -78,7 +82,7 @@ const IconsIngredientBlock: FC = () => {
         </div>
         <div className={classes.iconItem}>
           <div className={classes.icon}>
-            <img src="" alt="" />
+            <img src={caloriesIcon} alt="calories" />
           </div>
           <p>{calculateTotal(ingredients, recipe, "calories")} ккал</p>
         </div>
