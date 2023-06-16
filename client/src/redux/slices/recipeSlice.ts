@@ -32,6 +32,18 @@ export const fetchRecipes = createAsyncThunk<recipe[]>(
   }
 );
 
+export const fetchRecipesForAdmin = createAsyncThunk(
+  "recipes/fetchRecipesForAdmin",
+  async (_, { rejectWithValue }) => {
+    try {
+      const adminRecipes = await RecipeService.fetchRecipeAdmin();
+      return adminRecipes;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const fetchRecipeById = createAsyncThunk<recipe, string>(
   "recipes/fetchRecipe",
   async (recipeId, { rejectWithValue }) => {
@@ -59,6 +71,28 @@ export const addNewRecipe = createAsyncThunk<string, INewRecipeData>(
   async (data, { rejectWithValue }) => {
     try {
       return RecipeService.addNewRecipe(data);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateRecipeStatus = createAsyncThunk(
+  "recipes/updateRecipeStatus",
+  async (data, { rejectWithValue }) => {
+    try {
+      return RecipeService.updateRecipeStatus(data);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteRecipe = createAsyncThunk(
+  "recipes/deleteRecipe",
+  async (data, { rejectWithValue }) => {
+    try {
+      return RecipeService.deleteRecipe(data);
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -112,6 +146,15 @@ export const recipeSlice = createSlice({
     builder.addCase(fetchIngredientsByRecipe.rejected, (state) => {
       state.error = "Ошибка сервера";
       state.loading = false;
+    });
+    builder.addCase(fetchRecipesForAdmin.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchRecipesForAdmin.fulfilled, (state, action) => {
+      state.recipes = action.payload;
+      state.loading = false;
+      state.error = null;
     });
   },
 });

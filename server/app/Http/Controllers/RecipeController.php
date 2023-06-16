@@ -16,12 +16,21 @@ class RecipeController extends Controller
         $search = $request->query('search');
         $kitchen = $request->query('kitchen');
         $category = $request->query('category');
+        $minCookingTime = $request->query('minCookingTime');
+        $maxCookingTime = $request->query('maxCookingTime');
 
         $builder = DB::table('recipes')
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->join('users', 'user_id', '=', 'users.id')
-            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name');
+            ->leftJoin('likes', 'recipes.id', '=', 'likes.recipe_id')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', DB::raw('COUNT(likes.id) as like_count'))
+            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name');
+
+
+        if ($minCookingTime && $maxCookingTime) {
+            $builder->whereBetween('recipes.cookingTime', [$minCookingTime, $maxCookingTime]);
+        }
 
         if ($search) {
             $builder->where('recipes.title', 'like', "%{$search}%");
@@ -57,12 +66,24 @@ class RecipeController extends Controller
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->join('users', 'user_id', '=', 'users.id')
+            ->leftJoin('likes', 'recipes.id', '=', 'likes.recipe_id')
             ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', 'users.image')
             ->where('recipes.id', '=', "{$id}")
+            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name', 'users.image')
             ->first();
+
         $recipeArray = (array) $recipe;
         $recipeArray['recipeImage'] = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipeArray['recipeImage'])));
         $recipeArray['image'] = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipeArray['image'])));
+
+        $likedUserIds = DB::table('likes')
+            ->where('recipe_id', '=', $id)
+            ->pluck('user_id')
+            ->toArray();
+
+        $recipeArray['likedUserIds'] = $likedUserIds;
+        $recipeArray['likeCount'] = count($likedUserIds);
+
         return $recipeArray;
     }
     public function getIngredients($id)

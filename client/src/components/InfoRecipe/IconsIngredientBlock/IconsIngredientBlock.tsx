@@ -20,7 +20,8 @@ const IconsIngredientBlock: FC = () => {
     const newAmount = Math.round(amountPerPortion * portion * 2) / 2;
     return (
       <p key={index}>
-        {ingredient.ingredient}: {newAmount} {ingredient.measure}
+        {ingredient.ingredient}: {ingredient.measure !== "По вкусу" && newAmount}{" "}
+        {ingredient.measure}
       </p>
     );
   });
@@ -88,7 +89,7 @@ const IconsIngredientBlock: FC = () => {
         </div>
       </div>
       <p style={{ color: "gray", fontSize: "14px" }}>
-        КБЖУ расчитано на 1 порцию (~{+recipe.weight / recipe.portion} гр)
+        КБЖУ расчитано на 1 порцию (~{(+recipe.weight / recipe.portion).toFixed(1)} гр)
       </p>
       <div className={classes.ingredients}>{ingredientsRecipe}</div>
       <div className={classes.calculatePortion}>

@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { addNewRecipe } from "../../redux/slices/recipeSlice";
 import { INewRecipeData } from "../../types/INewRecipe";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 type TSelectOptions = {
   label: string;
@@ -34,8 +36,14 @@ const stylesSelect = {
 
 const AddRecipePage: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
   // Options select
   const [optionsCategory, setOptionsCategory] = useState<TSelectOptions[]>([]);
   const [optionsKitchen, setOptionsKitchen] = useState<TSelectOptions[]>([]);

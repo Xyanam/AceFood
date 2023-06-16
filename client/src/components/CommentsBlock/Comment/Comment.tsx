@@ -34,7 +34,7 @@ const Comment: FC<CommentProps> = ({ comment }) => {
         </div>
       </div>
       <div className={classes.commentText}>{comment.text}</div>
-      {+user.id === comment.user_id && (
+      {(+user.id === comment.user_id || user.role === "admin") && (
         <div className={classes.deleteIcon} onClick={() => deleteComment(comment.id)}>
           <img src={deleteIcon} alt="delete" />
         </div>

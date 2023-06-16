@@ -10,6 +10,7 @@ type TSliceState = {
 
 const initialState: TSliceState = {
   profileUser: {} as IUser,
+  favourite: [],
   loading: false,
   error: null,
 };
@@ -19,6 +20,17 @@ export const getUserProfile = createAsyncThunk<IUser, number>(
   async (userId, { rejectWithValue }) => {
     try {
       return UserService.getUser(userId);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserFavourite = createAsyncThunk<IUser, number>(
+  "user/getFavourite",
+  async (userId, { rejectWithValue }) => {
+    try {
+      return UserService.getFavourite(userId);
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -42,6 +54,15 @@ const UserProfileSlice = createSlice({
     builder.addCase(getUserProfile.rejected, (state) => {
       state.error = "Ошибка сервера";
       state.loading = false;
+    });
+    builder.addCase(getUserFavourite.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getUserFavourite.fulfilled, (state, action) => {
+      state.favourite = action.payload;
+      state.loading = false;
+      state.error = null;
     });
   },
 });

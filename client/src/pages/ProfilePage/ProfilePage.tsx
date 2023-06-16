@@ -1,20 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import classes from "./ProfilePage.module.css";
 import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getUserProfile } from "../../redux/slices/userProfileSlice";
+import { getUserFavourite, getUserProfile } from "../../redux/slices/userProfileSlice";
 import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
   const { id } = useParams();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { profileUser, loading } = useSelector((state: RootState) => state.profileUser);
+  const { profileUser, favourite, loading } = useSelector((state: RootState) => state.profileUser);
   const { user } = useSelector((state: RootState) => state.user);
+  const [popular, setPopular] = useState("");
 
   useEffect(() => {
     if (id) {
       dispatch(getUserProfile(+id));
+      dispatch(getUserFavourite(+id));
     }
   }, [id]);
 
@@ -38,13 +40,22 @@ const ProfilePage = () => {
             </div>
             <div className={classes.name}>
               <p>{profileUser.name}</p>
-              <p>Уровень: Лох</p>
+              <p style={{ color: "gray" }}>{profileUser.email}</p>
             </div>
           </div>
           <div className={classes.popular}>
-            <div className={classes.recipe}></div>
-            <p>Самый популярный рецепт:</p>
-            <p>Сырный суп по французски</p>
+            <div className={classes.recipeImage}>
+              {profileUser?.mostPopularRecipe?.recipeImage && (
+                <img
+                  src={`data:image/png;base64,${profileUser?.mostPopularRecipe?.recipeImage}`}
+                  alt="image"
+                />
+              )}
+            </div>
+            <div className={classes.recipeInfo}>
+              <p>Самый популярный рецепт:</p>
+              <p>{profileUser?.mostPopularRecipe?.title || "Рецептов нет"}</p>
+            </div>
           </div>
         </div>
         <div className={classes.navRecipe}>
@@ -72,8 +83,8 @@ const ProfilePage = () => {
             <p>Опубликовано рецептов: {profileUser.recipeCount}</p>
           </div>
         </div>
-        <div>
-          <Outlet context={profileUser} />
+        <div className={classes.recipes}>
+          <Outlet context={{ profileUser, favourite }} />
         </div>
       </div>
     </div>

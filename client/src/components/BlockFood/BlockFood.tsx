@@ -29,7 +29,7 @@ const BlockFood: FC<BlockFoodProps> = ({ recipe }) => {
               <p>{recipe.cookingTime} минут</p>
             </div>
             <div className={classes.rightDesc}>
-              <p>0 лайков</p>
+              <p>{recipe.like_count} лайков</p>
               <p>{recipe.kitchen}</p>
             </div>
           </div>

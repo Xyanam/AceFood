@@ -1,6 +1,5 @@
 import { CommentRecipeData } from "./../../services/CommentService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import RecipeService from "../../services/RecipeService";
 import { IComments } from "../../types/IComments";
 import CommentService from "../../services/CommentService";
 

@@ -22,4 +22,13 @@ export default class RecipeService {
       })
       .then((resp) => resp.data);
   }
+  static async fetchRecipeAdmin() {
+    return axiosClient.get("/recipesAdmin").then((resp) => resp.data);
+  }
+  static async updateRecipeStatus(data) {
+    return axiosClient.post("/updateStatus", data).then((resp) => resp.data);
+  }
+  static async deleteRecipe(data) {
+    return axiosClient.post("/deleteRecipe", data).then((resp) => resp.data);
+  }
 }

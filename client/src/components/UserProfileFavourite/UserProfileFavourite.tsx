@@ -1,18 +1,21 @@
 import { FC } from "react";
 
 import { useOutletContext } from "react-router-dom";
+import BlockFood from "../BlockFood/BlockFood";
 
 const UserProfileFavourite: FC = () => {
-  const user = useOutletContext();
+  const { favourite } = useOutletContext();
 
-  if (!user) {
-    return <h1>ЗАГРРАЗКА</h1>;
+  if (!favourite.length) {
+    return <p style={{ color: "gray" }}>Вы пока не добавили любимый рецепт</p>;
   }
 
   return (
-    <div>
-      <h1>ЛЮБИМКИ</h1>
-    </div>
+    <>
+      {favourite.map((recipe) => (
+        <BlockFood recipe={recipe} />
+      ))}
+    </>
   );
 };
 

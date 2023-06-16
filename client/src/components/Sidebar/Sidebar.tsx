@@ -26,6 +26,8 @@ const Sidebar: FC = () => {
 
   const [categoryValue, setCategoryValue] = useState<Number>(0);
   const [kitchenValue, setKitchenValue] = useState<Number>(0);
+  const [minCookingTime, setminCookingTime] = useState();
+  const [maxCookingTime, setmaxCookingTime] = useState();
 
   useEffect(() => {
     axiosClient
@@ -40,11 +42,15 @@ const Sidebar: FC = () => {
     const queryString = qs.stringify({
       kitchen: kitchenValue,
       category: categoryValue,
+      minCookingTime,
+      maxCookingTime,
     });
     navigate(`?${queryString}`);
 
     axiosClient
-      .get(`/recipes?kitchen=${kitchenValue}&category=${categoryValue}`)
+      .get(
+        `/recipes?kitchen=${kitchenValue}&category=${categoryValue}&minCookingTime=${minCookingTime}&maxCookingTime=${maxCookingTime}`
+      )
       .then((response) => {
         dispatch(setRecipes(response.data));
       });
@@ -52,6 +58,8 @@ const Sidebar: FC = () => {
 
   const resetFilter = () => {
     navigate("/recipes");
+    setminCookingTime("");
+    setmaxCookingTime("");
     dispatch(fetchRecipes());
   };
 
@@ -99,13 +107,22 @@ const Sidebar: FC = () => {
           />
         </div>
         <div className={classes.optionItem}>
-          <p className={classes.title}>Кол-во калорий</p>
+          <p className={classes.title}>Время готовки</p>
           <div className={classes.inputsCalories}>
-            <input type="text" className={classes.calories} />
-            <input type="text" className={classes.calories} />
-          </div>
-          <div className={classes.inputRange}>
-            <input type="range" className={classes.inputRange} />
+            <input
+              type="text"
+              placeholder="От"
+              className={classes.calories}
+              value={minCookingTime}
+              onChange={(e) => setminCookingTime(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="До"
+              className={classes.calories}
+              value={maxCookingTime}
+              onChange={(e) => setmaxCookingTime(e.target.value)}
+            />
           </div>
         </div>
         <PinkButton width="200px" onClick={onSubmitFilter}>

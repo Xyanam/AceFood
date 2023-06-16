@@ -5,3 +5,16 @@
   max-width: 1920px;
   width: 100%;
 }
+.heart {
+  position: absolute;
+  left: 90%;
+  top: -5%;
+  cursor: pointer;
+}
+.like {
+  position: absolute;
+  left: 40%;
+  top: 20%;
+  color: white;
+  font-size: 28px;
+}

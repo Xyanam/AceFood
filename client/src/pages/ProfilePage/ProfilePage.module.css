@@ -55,3 +55,25 @@
   border-bottom: 2px solid black;
   padding-bottom: 5px;
 }
+.popular {
+  display: flex;
+}
+.recipes {
+  display: flex;
+  flex-wrap: wrap;
+}
+.recipeImage {
+  width: 180px;
+  height: 140px;
+  border-radius: 15px;
+}
+.recipeImage img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+.recipeInfo {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
