@@ -14,6 +14,7 @@ Acefood - это фуллстек приложение, представляющ
 ## Используемые технологии
 
 - React
+- Laravel
 - Redux ToolKit
 - TypeScript
 - React Router Dom
