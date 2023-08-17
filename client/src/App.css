@@ -11,6 +11,9 @@
   top: -5%;
   cursor: pointer;
 }
+.heart.disabled {
+  pointer-events: none;
+}
 .like {
   position: absolute;
   left: 40%;

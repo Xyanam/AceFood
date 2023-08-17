@@ -42,6 +42,12 @@ const AddRecipePage: FC = () => {
   useEffect(() => {
     if (!isAuth) {
       navigate("/");
+      toast.warning("Чтобы добавить рецепт. вам нужно авторизоваться", {
+        style: {
+          fontSize: "18px",
+          width: "400px",
+        },
+      });
     }
   }, [isAuth]);
   // Options select

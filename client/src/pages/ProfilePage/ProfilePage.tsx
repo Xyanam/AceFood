@@ -4,6 +4,7 @@ import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getUserFavourite, getUserProfile } from "../../redux/slices/userProfileSlice";
 import { useSelector } from "react-redux";
+import Loader from "../../components/Loader/Loader";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ const ProfilePage = () => {
   }, [id]);
 
   if (loading) {
-    return <h1>ЗАГРАЗКА...</h1>;
+    return <Loader />;
   }
 
   const isCurrentUser = profileUser.id === user.id;

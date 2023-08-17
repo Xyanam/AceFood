@@ -88,7 +88,7 @@ const IconsIngredientBlock: FC = () => {
           <p>{calculateTotal(ingredients, recipe, "calories")} ккал</p>
         </div>
       </div>
-      <p style={{ color: "gray", fontSize: "14px" }}>
+      <p className={classes.kbzu}>
         КБЖУ расчитано на 1 порцию (~{(+recipe.weight / recipe.portion).toFixed(1)} гр)
       </p>
       <div className={classes.ingredients}>{ingredientsRecipe}</div>

@@ -45,3 +45,6 @@
   flex-direction: column;
   justify-content: center;
 }
+.infoAuthor a:hover {
+  text-decoration: underline;
+}

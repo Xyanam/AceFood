@@ -7,6 +7,7 @@ import Heart from "../Heart";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import axiosClient from "../../http/axios-client";
+import Loader from "../Loader/Loader";
 
 type InfoRecipeProps = {
   recipe: recipe;
@@ -14,7 +15,7 @@ type InfoRecipeProps = {
 
 const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
   const { user } = useSelector((state: RootState) => state.user);
-  const [liked, setLiked] = useState(recipe?.likedUserIds?.includes(user.id) || false);
+  const [liked, setLiked] = useState(recipe?.likedUserIds?.includes(user.id));
   const [likeCount, setLikeCount] = useState(recipe?.likeCount);
 
   const handleLikeRecipe = () => {
@@ -24,7 +25,9 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
     };
     axiosClient.post("/like", data);
     setLiked(!liked);
-    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+    if (likeCount) {
+      setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +49,6 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
           </div>
           <div className={classes.infoAuthor}>
             <Link to={`/profile/${recipe.user_id}`}>{recipe.name}</Link>
-            <p>Уровень: {recipe.name === "galina.1984" ? "Начинающий" : "Бывалый повар"}</p>
           </div>
         </div>
       </div>

@@ -21,6 +21,17 @@
 }
 .author {
   margin-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+.author a {
+  text-decoration: none;
+  color: black;
+}
+.author a:hover {
+  text-decoration: underline;
 }
 .commentText {
   margin-top: 20px;
@@ -43,4 +54,9 @@
 .deleteIcon img {
   width: 100%;
   height: 100%;
+}
+
+.dots {
+  font-size: 32px;
+  margin: 0;
 }

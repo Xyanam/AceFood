@@ -7,6 +7,7 @@ import { fetchIngredientsByRecipe, fetchRecipeById } from "../../redux/slices/re
 import { fetchCommentsByRecipe } from "../../redux/slices/commentsSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import classes from "./InfoRecipePage.module.css";
+import Loader from "../../components/Loader/Loader";
 const InfoRecipePage: FC = () => {
   const dispatch = useAppDispatch();
   const { recipe, loading } = useSelector((state: RootState) => state.recipes);
@@ -22,7 +23,7 @@ const InfoRecipePage: FC = () => {
     <div className={classes.wrapper}>
       <div className={classes.container}>
         {loading ? (
-          <h1>Загразка...</h1>
+          <Loader />
         ) : (
           <>
             <div className={classes.title}>

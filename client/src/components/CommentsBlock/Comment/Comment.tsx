@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { deleteCommentById } from "../../../redux/slices/commentsSlice";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 type CommentProps = {
   comment: IComments;
@@ -22,15 +23,21 @@ const Comment: FC<CommentProps> = ({ comment }) => {
       error: "Ошибка удаления комментария",
     });
   };
+
   return (
     <div className={classes.comment}>
       <div className={classes.infoAuthor}>
-        <div className={classes.img}>
-          <img src={`data:image/png;base64,${comment.image}`} alt="" />
-        </div>
+        <Link to={`/profile/${comment.user_id}`}>
+          <div className={classes.img}>
+            <img src={`data:image/png;base64,${comment.image}`} alt="" />
+          </div>
+        </Link>
         <div className={classes.author}>
-          <p>{comment.name}</p>
-          <p className={classes.date}>{comment.created_at}</p>
+          <div>
+            <Link to={`/profile/${comment.user_id}`}>{comment.name}</Link>
+            <p className={classes.date}>{comment.created_at}</p>
+          </div>
+          <div className={classes.dots}>...</div>
         </div>
       </div>
       <div className={classes.commentText}>{comment.text}</div>

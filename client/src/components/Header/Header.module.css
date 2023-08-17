@@ -37,6 +37,14 @@
   display: flex;
   align-items: center;
 }
+.authBtn:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.registerBtn:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
 .authBtn a {
   width: 100px;
   cursor: pointer;

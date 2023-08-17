@@ -1,7 +1,18 @@
-const Heart = ({ onClick, recipe, liked, likeCount }) => {
+import { useAuth } from "../hooks/useAuth";
+import { recipe } from "../types/TRecipe";
+
+interface HeartProps {
+  recipe: recipe;
+  liked: boolean;
+  likeCount: number;
+  onClick: () => void;
+}
+
+const Heart = ({ onClick, recipe, liked, likeCount }: HeartProps) => {
   if (Object.keys(recipe).length === 0) {
     return <h1>Загрузка</h1>;
   }
+  const { isAuth } = useAuth();
 
   const likeStyle = {
     display: "flex",
@@ -14,7 +25,7 @@ const Heart = ({ onClick, recipe, liked, likeCount }) => {
   };
 
   return (
-    <div className="heart" onClick={onClick}>
+    <div className={`heart ${!isAuth && "disabled"}`} onClick={onClick}>
       <svg
         fill={`${liked ? "red" : "black"}`}
         width="60px"

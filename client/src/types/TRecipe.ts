@@ -17,4 +17,6 @@ export type recipe = {
   kitchen: string;
   category: string;
   name: string;
+  likedUserIds?: string;
+  likeCount?: number;
 };
