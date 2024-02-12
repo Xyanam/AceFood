@@ -10,3 +10,8 @@
   border: none;
   color: white;
 }
+
+.btn:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}

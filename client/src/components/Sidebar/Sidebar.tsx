@@ -26,8 +26,8 @@ const Sidebar: FC = () => {
 
   const [categoryValue, setCategoryValue] = useState<Number>(0);
   const [kitchenValue, setKitchenValue] = useState<Number>(0);
-  const [minCookingTime, setminCookingTime] = useState();
-  const [maxCookingTime, setmaxCookingTime] = useState();
+  const [minCookingTime, setminCookingTime] = useState("");
+  const [maxCookingTime, setmaxCookingTime] = useState("");
 
   useEffect(() => {
     axiosClient

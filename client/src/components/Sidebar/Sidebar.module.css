@@ -58,3 +58,8 @@
   background-color: #a6a6a6;
   color: white;
 }
+
+.resetFilter:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}

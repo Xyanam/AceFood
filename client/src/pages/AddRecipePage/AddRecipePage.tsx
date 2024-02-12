@@ -39,6 +39,7 @@ const AddRecipePage: FC = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (!isAuth) {
       navigate("/");
@@ -50,6 +51,7 @@ const AddRecipePage: FC = () => {
       });
     }
   }, [isAuth]);
+
   // Options select
   const [optionsCategory, setOptionsCategory] = useState<TSelectOptions[]>([]);
   const [optionsKitchen, setOptionsKitchen] = useState<TSelectOptions[]>([]);
@@ -128,6 +130,7 @@ const AddRecipePage: FC = () => {
       amount: amountValue[index],
       measure: selectMeasure[index].value,
     }));
+
     formData.append("recipeName", titleRecipe);
     formData.append("kitchen", kitchenValue.toString());
     formData.append("category", categoryValue.toString());
@@ -153,6 +156,7 @@ const AddRecipePage: FC = () => {
       recipePicture: formData.get("recipePicture") as File,
       weight: formData.get("weight") as string,
     };
+
     toast.promise(
       dispatch(addNewRecipe(recipeData)),
       {
