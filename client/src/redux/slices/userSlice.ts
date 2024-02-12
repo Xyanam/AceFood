@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AuthService from "../../services/AuthService";
 import AuthResponse from "../../types/response/AuthResponse";
 import { AxiosError } from "axios";
+import { RootState } from "../store";
 
 type TErrorAxios = {
   status: number;
@@ -147,6 +148,8 @@ export const userSlice = createSlice({
     });
   },
 });
+
+export const selectUser = (state: RootState) => state.user;
 
 export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

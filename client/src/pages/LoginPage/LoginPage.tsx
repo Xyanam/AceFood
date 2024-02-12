@@ -3,7 +3,7 @@ import classes from "./LoginPage.module.css";
 import Input from "../../components/UI/Input/Input";
 import PinkButton from "../../components/UI/PinkButton/PinkButton";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { loginUser } from "../../redux/slices/userSlice";
+import { loginUser, selectUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -16,7 +16,7 @@ const LoginPage: FC = () => {
   const { isAuth } = useAuth();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { error } = useSelector((state: RootState) => state.user);
+  const { error } = useSelector(selectUser);
 
   useEffect(() => {
     if (isAuth) {

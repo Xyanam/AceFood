@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import dots from "../../../assets/img/dots.svg";
 import danger from "../../../assets/img/danger.svg";
 import edit from "../../../assets/img/edit.svg";
+import { selectUser } from "../../../redux/slices/userSlice";
 
 type CommentProps = {
   comment: IComments;
@@ -17,7 +18,7 @@ type CommentProps = {
 
 const Comment: FC<CommentProps> = ({ comment }) => {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
 
   const [isOpenActions, setIsOpenActions] = useState(false);
   const menuRef = useRef(null);

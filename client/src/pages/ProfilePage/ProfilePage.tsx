@@ -5,13 +5,14 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { getUserFavourite, getUserProfile } from "../../redux/slices/userProfileSlice";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
+import { selectUser } from "../../redux/slices/userSlice";
 
 const ProfilePage = () => {
   const { id } = useParams();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { profileUser, favourite, loading } = useSelector((state: RootState) => state.profileUser);
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const [popular, setPopular] = useState("");
 
   useEffect(() => {

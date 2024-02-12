@@ -4,8 +4,8 @@ import foodLeft from "../../assets/img/loginfoodleft.png";
 import foodRight from "../../assets/img/loginfoodright.png";
 import Input from "../../components/UI/Input/Input";
 import PinkButton from "../../components/UI/PinkButton/PinkButton";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { registerUser } from "../../redux/slices/userSlice";
+import { useAppDispatch } from "../../redux/store";
+import { registerUser, selectUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import { DataRegister } from "../../services/AuthService";
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
-  const { error } = useSelector((state: RootState) => state.user);
+  const { error } = useSelector(selectUser);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ const LoginPage: FC = () => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
   const [image, setImage] = useState<string | Blob>("");
+
   useEffect(() => {
     if (isAuth) {
       navigate("/");

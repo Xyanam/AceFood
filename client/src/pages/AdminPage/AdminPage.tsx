@@ -10,12 +10,13 @@ import {
   updateRecipeStatus,
 } from "../../redux/slices/recipeSlice";
 import BlockFood from "../../components/BlockFood/BlockFood";
+import { selectUser } from "../../redux/slices/userSlice";
 
 const AdminPage = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const { recipes, loading } = useSelector((state: RootState) => state.recipes);
 
   useEffect(() => {

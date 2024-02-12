@@ -11,6 +11,7 @@ import { addNewRecipe } from "../../redux/slices/recipeSlice";
 import { INewRecipeData } from "../../types/INewRecipe";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { selectUser } from "../../redux/slices/userSlice";
 
 type TSelectOptions = {
   label: string;
@@ -35,7 +36,7 @@ const stylesSelect = {
 };
 
 const AddRecipePage: FC = () => {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -72,7 +73,8 @@ const AddRecipePage: FC = () => {
   const [amountValue, setAmountValue] = useState<string[]>([]);
   const [titleRecipe, setTitleRecipe] = useState("");
   const [cookingTime, setCookingTime] = useState("");
-  const [cookingMethod, setCookingMethod] = useState("");
+  const [cookingMethodCount, setCookingMethodCount] = useState(2);
+  const [cookingMethod, setCookingMethod] = useState<string[]>(Array(cookingMethodCount).fill(""));
   const [portion, setPortion] = useState(1);
   const [image, setImage] = useState("");
   const [weight, setWeight] = useState("");
@@ -82,6 +84,26 @@ const AddRecipePage: FC = () => {
     const list = [...amountValue];
     list[index] = value;
     setAmountValue(list);
+  };
+
+  const handleCookingMethodChange = (value: any, index: number) => {
+    const values = [...cookingMethod];
+    values[index] = value;
+    setCookingMethod(values);
+  };
+
+  const handleAddCookingMethod = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setCookingMethod([...cookingMethod, ""]);
+    setCookingMethodCount((prev) => (prev += 1));
+  };
+
+  const handleRemoveCookingMethod = (e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+    e.preventDefault();
+    const values = [...cookingMethod];
+    values.splice(idx, 1);
+    setCookingMethod(values);
+    setCookingMethodCount((prev) => (prev -= 1));
   };
 
   const selectIngredientsChange = (index: number) => (value: TSelectOptions) => {
@@ -115,6 +137,7 @@ const AddRecipePage: FC = () => {
       setPortion((prev) => prev - 1);
     }
   };
+
   const incrementPortion = () => {
     if (portion < 12) {
       setPortion((prev) => prev + 1);
@@ -131,12 +154,14 @@ const AddRecipePage: FC = () => {
       measure: selectMeasure[index].value,
     }));
 
+    const cookingSteps = cookingMethod.map((cook, idx) => `${idx + 1}. ${cook}`).join("\n \n");
+
     formData.append("recipeName", titleRecipe);
     formData.append("kitchen", kitchenValue.toString());
     formData.append("category", categoryValue.toString());
     formData.append("user_id", user.id);
     formData.append("cookingTime", cookingTime);
-    formData.append("cookingMethod", cookingMethod);
+    formData.append("cookingMethod", cookingSteps);
     formData.append("portion", portion.toString());
     formData.append("rating", "0");
     formData.append("ingredients", JSON.stringify(ingredients));
@@ -324,12 +349,29 @@ const AddRecipePage: FC = () => {
               6. Опишите пошагово
               <br /> способ приготовления
             </p>
-            <textarea
-              className={classes.cookingMethod}
-              value={cookingMethod}
-              onChange={(e) => setCookingMethod(e.target.value)}
-              placeholder="Ваше описание"
-            />
+            <div className={classes.cookingMethodArea}>
+              {cookingMethod.map((_, idx) => (
+                <div className={classes.textAreaCooking} key={idx}>
+                  <span className={classes.cookingMethodStep}>{idx + 1}</span>
+                  <textarea
+                    className={classes.cookingMethod}
+                    value={cookingMethod[idx]}
+                    onChange={(e) => handleCookingMethodChange(e.target.value, idx)}
+                    placeholder={`Описание ${idx + 1} этапа`}
+                  />
+                  {cookingMethodCount > 2 && idx + 1 === cookingMethod.length && (
+                    <div
+                      className={classes.deleteIcon}
+                      onClick={(e) => handleRemoveCookingMethod(e, idx)}>
+                      <img src={deleteIcon} alt="delete" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button onClick={handleAddCookingMethod} className={classes.addIngredient}>
+              Добавить этап
+            </button>
           </div>
           <div className={classes.formItem}>
             <input type="file" onChange={(e: any) => setImage(e.target.files[0])} />

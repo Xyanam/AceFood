@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/acefood.gif";
@@ -8,14 +8,19 @@ import logoutIcon from "../../assets/img/logout.svg";
 import adminIcon from "../../assets/img/admin.png";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { logoutUser } from "../../redux/slices/userSlice";
+import { useAppDispatch } from "../../redux/store";
+import { logoutUser, selectUser } from "../../redux/slices/userSlice";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Header: FC = () => {
   const { isAuth } = useAuth();
-  const { user, loading, error } = useSelector((state: RootState) => state.user);
+  const { user, loading } = useSelector(selectUser);
   const dispatch = useAppDispatch();
-  const [activeArrow, setActiveArrow] = useState(false);
+  const [activePopup, setActivePopup] = useState(false);
+
+  const popupRef = useRef(null);
+
+  useOutsideClick(popupRef, () => setActivePopup(false));
 
   return (
     <header className={classes.header}>
@@ -37,13 +42,16 @@ const Header: FC = () => {
         <div className={classes.auth}>
           {!loading ? (
             isAuth ? (
-              <div className={classes.user} onClick={() => setActiveArrow(!activeArrow)}>
+              <div
+                className={classes.user}
+                onClick={() => setActivePopup(!activePopup)}
+                ref={popupRef}>
                 <div className={classes.avatar}>
                   <img src={`data:image/png;base64,${user.image}`} alt="avatar" />
                 </div>
                 <p className={classes.login}>{user.name}</p>
-                <img src={arrow} className={!activeArrow ? classes.arrowActive : classes.arrow} />
-                {activeArrow && (
+                <img src={arrow} className={!activePopup ? classes.arrowActive : classes.arrow} />
+                {activePopup && (
                   <div className={classes.popup} onClick={(e) => e.stopPropagation()}>
                     <div className={classes.infoUser}>
                       <div className={classes.avatarUser}>
@@ -69,7 +77,7 @@ const Header: FC = () => {
                       <p
                         onClick={() => {
                           dispatch(logoutUser());
-                          setActiveArrow(false);
+                          setActivePopup(false);
                         }}>
                         Выйти
                       </p>

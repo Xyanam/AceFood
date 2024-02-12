@@ -8,13 +8,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import axiosClient from "../../http/axios-client";
 import Loader from "../Loader/Loader";
+import { selectUser } from "../../redux/slices/userSlice";
 
 type InfoRecipeProps = {
   recipe: recipe;
 };
 
 const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const [liked, setLiked] = useState(recipe?.likedUserIds?.includes(user.id));
   const [likeCount, setLikeCount] = useState(recipe?.likeCount);
 

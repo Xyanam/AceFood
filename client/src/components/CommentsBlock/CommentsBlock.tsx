@@ -8,10 +8,11 @@ import PinkButton from "../UI/PinkButton/PinkButton";
 import Comment from "./Comment/Comment";
 import classes from "./CommentsBlock.module.css";
 import { useAuth } from "../../hooks/useAuth";
+import { selectUser } from "../../redux/slices/userSlice";
 
 const CommentsBlock: FC = () => {
   const { comments, errorComment, loading } = useSelector((state: RootState) => state.comment);
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const { id } = useParams();
   const { isAuth } = useAuth();
   const dispatch = useAppDispatch();

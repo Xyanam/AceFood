@@ -18,6 +18,7 @@ const IconsIngredientBlock: FC = () => {
   const ingredientsRecipe = ingredients.map((ingredient, index) => {
     const amountPerPortion = +ingredient.amount / recipe.portion;
     const newAmount = Math.round(amountPerPortion * portion * 2) / 2;
+
     return (
       <p key={index}>
         {ingredient.ingredient}: {ingredient.measure !== "По вкусу" && newAmount}{" "}
