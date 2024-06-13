@@ -11,6 +11,7 @@ import debounce from "lodash.debounce";
 import qs from "qs";
 import axiosClient from "../../http/axios-client";
 import Skeleton from "../../components/SkeletonRecipe/SkeletonRecipe";
+import { Frown } from "lucide-react";
 
 const RecipesPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +23,16 @@ const RecipesPage: FC = () => {
 
   const queryParams = qs.parse(window.location.search.substring(1));
 
-  const kitchen = queryParams.kitchen === "" ? "" : `kitchen=${queryParams.kitchen}`;
-  const category = queryParams.category === "" ? "" : `category=${queryParams.category}`;
+  const kitchen =
+    queryParams.kitchen === "" || queryParams.kitchen === undefined
+      ? ""
+      : `kitchen=${queryParams.kitchen}`;
+  const category =
+    queryParams.category === "" || queryParams.category === undefined
+      ? ""
+      : `category=${queryParams.category}`;
+  const search =
+    queryParams.search === "" || inputValue === "" ? "" : `search=${queryParams.search}`;
 
   const debounceSearch = useCallback(
     debounce((e: string) => setSearchValue(e), 250),
@@ -38,7 +47,7 @@ const RecipesPage: FC = () => {
   useEffect(() => {
     setLoader(true);
     if (window.location.search) {
-      axiosClient.get(`/recipes?search=${searchValue}&${kitchen}&${category}`).then((response) => {
+      axiosClient.get(`/recipes?${search}&${kitchen}&${category}`).then((response) => {
         dispatch(setRecipes(response.data));
         setLoader(false);
       });
@@ -71,6 +80,11 @@ const RecipesPage: FC = () => {
           {loading || loader
             ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
             : recipes.map((recipe: recipe) => <BlockFood key={recipe.id} recipe={recipe} />)}
+          {!recipes.length && !loading && !loader && (
+            <h1 style={{ marginLeft: "50px", opacity: 0.7 }} className="flex gap-2 mt-6 text-xl">
+              Ничего не найдено <Frown />
+            </h1>
+          )}
         </div>
       </div>
     </div>

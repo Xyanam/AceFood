@@ -24,7 +24,7 @@
 }
 .form {
   width: 50%;
-  margin: 0 auto;
+  margin: 20px auto 0px auto;
   padding: 0 10px;
   display: flex;
   flex-direction: column;
@@ -94,10 +94,10 @@
   display: flex;
   margin-bottom: 20px;
   position: relative;
+  gap: 10px;
 }
 .ingredientInput {
   width: 60px;
-  margin: 0 5px 0 20px;
   padding-left: 10px;
   border-radius: 10px;
   border: 1px solid gray;
@@ -145,6 +145,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
 .calculate {
   margin: 0 10px;
@@ -160,4 +162,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.previewImage {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .formSelect {
+    gap: 20px;
+    justify-content: start;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 590px) {
+  .formSelect {
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    margin-left: 80px;
+  }
+  .formItem {
+    width: 300px;
+  }
+  .ingredientsSelect {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid gray;
+    padding-bottom: 20px;
+  }
+  .ingredientInput {
+    height: 40px;
+  }
+}
+
+@media (max-width: 407px) {
+  .formSelect {
+    margin-left: 0px;
+    max-width: 200px;
+  }
+  .imageInput {
+    max-width: 200px;
+  }
+  .title {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cookingMethodStep {
+    display: none;
+  }
 }

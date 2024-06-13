@@ -8,6 +8,7 @@ export type DataRegister = {
   password_confirmation: string;
   profilePicture: File;
   role: string;
+  banned: number;
 };
 
 export type DataLogin = {

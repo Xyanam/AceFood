@@ -36,7 +36,7 @@ const Header: FC = () => {
             <Link to="/addrecipe">Добавить рецепт</Link>
           </li>
           <li className={classes.navItem}>
-            <Link to="/">Помощь</Link>
+            <Link to="/help">Помощь</Link>
           </li>
         </ul>
         <div className={classes.auth}>

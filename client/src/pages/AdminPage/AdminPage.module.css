@@ -2,6 +2,7 @@
   max-width: 1920px;
   width: 100%;
   margin: 0 auto;
+  margin-left: 100px;
 }
 .container {
   max-width: 1400px;
@@ -16,7 +17,7 @@
 .recipes {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .recipe {
   display: flex;
@@ -37,7 +38,7 @@
   width: 100%;
 }
 .buttons button {
-  padding: 10px 15px;
+  padding: 7px 10px;
   border: none;
   outline: none;
   font-weight: bold;
@@ -46,7 +47,40 @@
 }
 .accept {
   background-color: rgb(37, 230, 95);
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 8px;
 }
 .cancel {
   background-color: rgb(223, 96, 96);
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 8px;
+}
+
+.cancel:hover {
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.trashIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    margin-left: 0px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    justify-content: center;
+    align-items: center;
+  }
+  .recipes {
+    justify-content: center;
+  }
 }

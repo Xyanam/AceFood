@@ -56,7 +56,6 @@
   position: absolute;
   right: 0;
   top: 30%;
-  padding: 0px 15px;
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0px 5px 10px 4px rgba(34, 60, 80, 0.2);
@@ -94,4 +93,36 @@
 .remove:hover {
   opacity: 0.7;
   transition: 0.2s;
+}
+
+.textarea {
+  width: 400px;
+  height: 70px;
+  resize: none;
+  padding: 10px 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  outline: none;
+  border-radius: 10px;
+}
+
+.btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.cancel {
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  font-family: "Multiround";
+  cursor: pointer;
+  background-color: #a6a6a6;
+  color: white;
+}
+
+.cancel:hover {
+  opacity: 0.8;
+  transition: 0.3s;
 }

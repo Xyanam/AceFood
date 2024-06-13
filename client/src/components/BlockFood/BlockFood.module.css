@@ -34,6 +34,7 @@
 .titleBlock {
   width: 250px;
   height: 65px;
+  margin-top: 10px;
 }
 .title {
   font-size: 15px;
@@ -53,4 +54,45 @@
   font-size: 14px;
   font-family: "Comfortaa";
   font-weight: 500;
+}
+
+.leftDesc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.rightDesc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.descItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.icon {
+  color: white;
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 1024px) {
+  .block {
+    width: 250px;
+    height: 200px;
+  }
+  .titleBlock {
+    width: 200px;
+  }
+  .title {
+    width: 200px;
+  }
 }

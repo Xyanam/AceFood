@@ -23,4 +23,10 @@ export default class CommentService {
       .post(`/recipes/deleteComment`, { comment_id: id })
       .then((response) => response.data);
   }
+  static async updateCommentById(data: { comment_id: string; text: string }) {
+    return axiosClient.post("/recipes/updateComment", {
+      comment_id: data.comment_id,
+      text: data.text,
+    });
+  }
 }

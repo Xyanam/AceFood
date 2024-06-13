@@ -25,11 +25,14 @@ class RecipeController extends Controller
             ->join('users', 'user_id', '=', 'users.id')
             ->leftJoin('likes', 'recipes.id', '=', 'likes.recipe_id')
             ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', DB::raw('COUNT(likes.id) as like_count'))
-            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name');
+            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name')
+            ->orderByDesc('like_count');
 
 
-        if ($minCookingTime && $maxCookingTime) {
+        if ($minCookingTime > 0 && $maxCookingTime > 0) {
             $builder->whereBetween('recipes.cookingTime', [$minCookingTime, $maxCookingTime]);
+        } elseif ($maxCookingTime > 0) {
+            $builder->where('recipes.cookingTime', '<=', $maxCookingTime);
         }
 
         if ($search) {
@@ -60,6 +63,7 @@ class RecipeController extends Controller
         return $recipes;
         // ToDo paginate
     }
+
     public function show($id)
     {
         $recipe = DB::table('recipes')

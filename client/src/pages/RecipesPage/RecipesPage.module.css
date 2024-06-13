@@ -55,3 +55,17 @@
 
   flex-wrap: wrap;
 }
+
+@media (max-width: 1024px) {
+  .recipes {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 650px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

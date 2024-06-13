@@ -30,7 +30,7 @@ const InfoRecipePage: FC = () => {
               <h1>{recipe.title}</h1>
             </div>
             <InfoRecipe recipe={recipe} />
-            <CommentsBlock />
+            <CommentsBlock recipe={recipe} />
           </>
         )}
       </div>

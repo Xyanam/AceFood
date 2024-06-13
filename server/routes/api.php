@@ -30,9 +30,18 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/recipes', [RecipeController::class, 'index']);
 Route::get('/recipes/{id}', [RecipeController::class, 'show']);
 Route::get('/recipes/{id}/ingredients', [RecipeController::class, 'getIngredients']);
+
 Route::get('/recipes/{id}/comments', [RecipeController::class, 'getComments']);
+Route::get('/getReportComments', [CommentController::class, 'getReportComments']);
+
+Route::post('/deleteFromReport', [CommentController::class, 'deleteFromReportComment']);
 Route::post('/recipes/{id}/comments', [CommentController::class, 'createComment']);
 Route::post('/recipes/deleteComment', [CommentController::class, 'deleteComment']);
+Route::post('/deleteComment', [CommentController::class, 'deleteComments']);
+Route::post('/deleteUserComments', [CommentController::class, 'deleteAllUserComments']);
+Route::post('/recipes/updateComment', [CommentController::class, 'updateComment']);
+Route::post('/recipes/reportComment', [CommentController::class, 'reportComment']);
+
 Route::post('/addrecipe', [RecipeController::class, 'addRecipe']);
 Route::post('/like', [LikeController::class, 'likeRecipe']);
 
@@ -42,8 +51,14 @@ Route::get('/ingredients', [IngredientController::class, 'getIngredients']);
 Route::get('/measure', [MeasureController::class, 'getMeasures']);
 
 Route::get('/recipesAdmin', [AdminController::class, 'getAllRecipes']);
+Route::get('/pendingRecipes', [AdminController::class, 'getPendingRecipes']);
 Route::post('/updateStatus', [AdminController::class, 'updateRecipeStatus']);
 Route::post('/deleteRecipe', [AdminController::class, 'deleteRecipe']);
 
 Route::get('/userProfile/{id}', [UserController::class, 'show']);
 Route::get('/userProfile/{id}/favourites', [UserController::class, 'getLikedRecipes']);
+Route::get('/users', [UserController::class, 'getUsers']);
+Route::get('/bannedUsers', [UserController::class, 'getBannedUsers']);
+
+Route::post('/banUser', [UserController::class, 'banUser']);
+Route::post('/createIngredient', [IngredientController::class, 'createIngredient']);

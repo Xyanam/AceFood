@@ -10,6 +10,7 @@ import proteinsIcon from "../../../assets/img/proteins.svg";
 import caloriesIcon from "../../../assets/img/calories.svg";
 import timeIcon from "../../../assets/img/time.svg";
 import kitchenIcon from "../../../assets/img/kitchen.png";
+import { cn } from "@/lib/utils";
 
 const IconsIngredientBlock: FC = () => {
   const { ingredients, recipe } = useSelector((state: RootState) => state.recipes);
@@ -27,15 +28,18 @@ const IconsIngredientBlock: FC = () => {
     );
   });
 
-  const calculateTotal = (ingredients: Ingredient[], recipe: recipe, property: string) => {
+  const calculateTotal = (ingredients: Ingredient[], recipe: recipe[], property: string) => {
+    const weightPerPortion = recipe.weight / recipe.portion;
+    const weightAllIngredients = 100 * ingredients.length;
+
     return useMemo(() => {
-      return ingredients.reduce((a, b) => {
-        const value = a + b[property];
-        const weightPerPortion = +recipe.weight / recipe.portion;
-        const weightAllIngredients = 100 * ingredients.length;
-        return +(a + (value * weightPerPortion) / weightAllIngredients).toFixed(1);
-      }, 0);
-    }, [ingredients]);
+      return ingredients
+        .reduce((total, ingredient) => {
+          const value = ingredient[property];
+          return total + (value * weightPerPortion) / weightAllIngredients;
+        }, 0)
+        .toFixed(1);
+    }, [ingredients, recipe, property, weightPerPortion, weightAllIngredients]);
   };
 
   const decrementPortion = () => {
@@ -107,7 +111,7 @@ const IconsIngredientBlock: FC = () => {
         <div className={classes.title}>
           <h1>Способ приготовления</h1>
         </div>
-        <div className={classes.steps}>
+        <div className={cn(classes.steps, "mt-10")}>
           <p>{recipe.text}</p>
         </div>
       </div>

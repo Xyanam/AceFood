@@ -81,7 +81,7 @@ const ProfilePage = () => {
               </NavLink>
             )}
           </div>
-          <div>
+          <div className="md:w-72 w-40 md:mb-0 mb-10">
             <p>Опубликовано рецептов: {profileUser.recipeCount}</p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import classes from "./PinkButton.module.css";
+import { cn } from "@/lib/utils";
 
 type PinkButtonProps = {
   children: string;
@@ -7,9 +8,18 @@ type PinkButtonProps = {
   width?: string;
   height?: string;
   fontSize?: string;
+  className?: string;
 };
 
-const PinkButton: FC<PinkButtonProps> = ({ children, onClick, width, height, fontSize }) => {
+const PinkButton: FC<PinkButtonProps> = ({
+  children,
+  onClick,
+  width,
+  height,
+  fontSize,
+  className,
+  ...props
+}) => {
   return (
     <button
       style={{
@@ -19,7 +29,8 @@ const PinkButton: FC<PinkButtonProps> = ({ children, onClick, width, height, fon
         fontSize: fontSize,
       }}
       onClick={onClick}
-      className={classes.btn}>
+      className={cn(classes.btn, "disabled:opacity-60 disabled:cursor-not-allowed", className)}
+      {...props}>
       {children}
     </button>
   );

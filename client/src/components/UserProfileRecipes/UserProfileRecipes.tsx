@@ -13,7 +13,7 @@ const UserProfileRecipes: FC = () => {
   return (
     <>
       {!profileUser.recipes.length ? (
-        <p style={{ color: "gray" }}>Рецептов нет</p>
+        <p style={{ color: "gray", paddingTop: "30px", paddingBottom: "30px" }}>Рецептов нет</p>
       ) : (
         <>
           {profileUser.recipes.map((recipe) => (

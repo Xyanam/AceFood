@@ -4,4 +4,6 @@ export interface IUser {
   image: string;
   id: string;
   role: string;
+  banned: number;
+  reason?: string;
 }

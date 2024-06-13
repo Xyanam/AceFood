@@ -26,9 +26,8 @@ const InfoRecipe: FC<InfoRecipeProps> = ({ recipe }) => {
     };
     axiosClient.post("/like", data);
     setLiked(!liked);
-    if (likeCount) {
-      setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-    }
+
+    setLikeCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
   };
 
   useEffect(() => {

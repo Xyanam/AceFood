@@ -2,12 +2,12 @@
   max-width: 1920px;
   width: 100%;
   height: calc(100vh - 100px);
+  padding: 0 15px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-image: url("../../assets/img/backgroundLogin.png");
   background-size: cover;
 }
 .form {
@@ -30,8 +30,15 @@
   display: flex;
   align-items: center;
   font-size: 14px;
+  margin-top: 10px;
 }
 .noAccount a {
   margin-left: 10px;
   color: #525151;
+}
+
+@media (max-width: 450px) {
+  .imageInput {
+    width: 300px;
+  }
 }

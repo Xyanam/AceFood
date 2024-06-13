@@ -1,0 +1,31 @@
+.title {
+  text-align: center;
+  font-size: 30px;
+  color: #372626;
+  margin-bottom: 60px;
+}
+
+.headerBlock {
+  width: 100%;
+  margin: 0 auto;
+  background-position: top;
+  background-repeat: no-repeat;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+}
+
+@media (max-width: 500px) {
+  .title {
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 380px) {
+  .title {
+    margin-top: 350px;
+  }
+}

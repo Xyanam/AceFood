@@ -50,6 +50,17 @@ export const deleteCommentById = createAsyncThunk<IComments, number>(
   }
 );
 
+export const updateCommentById = createAsyncThunk(
+  "comments/updateComment",
+  async (data, { rejectWithValue }) => {
+    try {
+      return await CommentService.updateCommentById(data);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const commentsSlice = createSlice({
   name: "recipes",
   initialState,
@@ -82,6 +93,13 @@ export const commentsSlice = createSlice({
     });
     builder.addCase(deleteCommentById.rejected, (state) => {
       state.errorComment = "Ошибка удаления комментария";
+    });
+    builder.addCase(updateCommentById.pending, (state) => {
+      state.loading = true;
+      state.errorComment = null;
+    });
+    builder.addCase(updateCommentById.fulfilled, (state, action) => {
+      state.loading = false;
     });
   },
 });

@@ -32,17 +32,34 @@ class RegisterRequest extends FormRequest
                 'confirmed',
                 Password::min(5)
             ],
-            'role' => ['required', 'string']
+            'role' => ['required', 'string'],
+            'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 
     public function messages()
     {
         return [
-            "name" => 'Имя пользователя уже используется',
-            'email' => 'Email уже используется',
-            'password' => 'Поле пароль обязательное',
-            'confirmed' => 'Повторный пароль неверен'
+            'name.required' => 'Введите имя пользователя',
+            'name.string' => 'Имя пользователя должно быть строкой',
+            'name.unique' => 'Имя пользователя уже используется',
+            'name.max' => 'Имя пользователя не должно превышать 20 символов',
+
+            'email.required' => 'Введите email',
+            'email.email' => 'Введите действительный email',
+            'email.unique' => 'Email уже используется',
+
+            'password.required' => 'Введите пароль',
+            'password.confirmed' => 'Подтверждение пароля не совпадает',
+            'password.min' => 'Пароль должен содержать минимум :min символов',
+
+            'role.required' => 'Введите роль',
+            'role.string' => 'Роль должна быть строкой',
+
+            'profilePicture.required' => 'Загрузите изображение',
+            'profilePicture.image' => 'Файл должен быть изображением',
+            'profilePicture.mimes' => 'Изображение должно быть формата: jpeg, png, jpg',
+            'profilePicture.max' => 'Размер изображения не должен превышать 2 МБ'
         ];
     }
 }
