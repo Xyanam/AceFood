@@ -4,14 +4,15 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addCommentsForRecipe } from "../../redux/slices/commentsSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import PinkButton from "../UI/PinkButton/PinkButton";
+import PinkButton from "../ui/PinkButton/PinkButton";
 import Comment from "./Comment/Comment";
 import classes from "./CommentsBlock.module.css";
 import { useAuth } from "../../hooks/useAuth";
+import { selectUser } from "../../redux/slices/userSlice";
 
-const CommentsBlock: FC = () => {
+const CommentsBlock: FC = ({ recipe }) => {
   const { comments, errorComment, loading } = useSelector((state: RootState) => state.comment);
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const { id } = useParams();
   const { isAuth } = useAuth();
   const dispatch = useAppDispatch();
@@ -43,26 +44,37 @@ const CommentsBlock: FC = () => {
       <div className={classes.title}>
         <h1>Комментарии</h1>
       </div>
+
       {isAuth ? (
-        <div className={classes.newCommentInput}>
-          <textarea
-            className={classes.textarea}
-            placeholder="Оставьте комментарий.."
-            value={textComment}
-            onChange={(e) => setTextComment(e.target.value)}
-          />
-          <PinkButton onClick={addNewComment}>Отправить</PinkButton>
-        </div>
+        recipe.moderated === "pending" ? (
+          <p>Рецепт на модерации, пока оставить комментарий нельзя</p>
+        ) : (
+          <div className={classes.newCommentInput}>
+            <textarea
+              className={classes.textarea}
+              placeholder="Оставьте комментарий.."
+              value={textComment}
+              onChange={(e) => setTextComment(e.target.value)}
+            />
+            <PinkButton onClick={addNewComment}>Отправить</PinkButton>
+          </div>
+        )
       ) : (
         <div className={classes.registerComment}>
-          Чтобы оставить комментарий вам необходимо <Link to="/login">Авторизоваться</Link> или{" "}
-          <Link to="/register">Зарегистрироваться</Link>
+          Чтобы оставить комментарий вам необходимо{" "}
+          <Link to="/login" className="underline">
+            Авторизоваться
+          </Link>{" "}
+          или{" "}
+          <Link to="/register" className="underline">
+            Зарегистрироваться
+          </Link>
         </div>
       )}
       {loading ? (
         <h1>Загрузка...</h1>
       ) : comments.length ? (
-        comments.map((comment) => <Comment key={comment.id} comment={comment} />)
+        comments.map((comment) => <Comment key={comment.id} comment={comment} recipe={recipe} />)
       ) : (
         <h3 className={classes.empty}>Тут пусто! Оставьте комментарий первым!</h3>
       )}

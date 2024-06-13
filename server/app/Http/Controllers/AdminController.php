@@ -14,7 +14,11 @@ class AdminController extends Controller
             ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->join('users', 'user_id', '=', 'users.id')
-            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name')
+            ->leftJoin('likes', 'recipes.id', '=', 'likes.recipe_id')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', DB::raw('COUNT(likes.id) as like_count'))
+            ->where('recipes.moderated', '=', 'approved')
+            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name')
+            ->orderByDesc('recipes.created_at')
             ->get();
 
         foreach ($recipes as $recipe) {
@@ -22,6 +26,26 @@ class AdminController extends Controller
         }
         return $recipes;
     }
+
+    public function getPendingRecipes()
+    {
+        $recipes = DB::table('recipes')
+            ->join('kitchens', 'kitchen_id', '=', 'kitchens.id')
+            ->join('categories', 'category_id', '=', 'categories.id')
+            ->join('users', 'user_id', '=', 'users.id')
+            ->leftJoin('likes', 'recipes.id', '=', 'likes.recipe_id')
+            ->select('recipes.*', 'kitchens.kitchen', 'categories.category', 'users.name', DB::raw('COUNT(likes.id) as like_count'))
+            ->where('recipes.moderated', '=', 'pending')
+            ->groupBy('recipes.id', 'kitchens.kitchen', 'categories.category', 'users.name')
+            ->orderByDesc('recipes.created_at')
+            ->get();
+
+        foreach ($recipes as $recipe) {
+            $recipe->recipeImage = base64_encode(Storage::get(str_replace('/storage', 'public/', $recipe->recipeImage)));
+        }
+        return $recipes;
+    }
+
     public function updateRecipeStatus(Request $request)
     {
         $status = $request->input('status');

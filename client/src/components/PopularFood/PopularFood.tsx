@@ -5,6 +5,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { recipe } from "../../types/TRecipe";
 import BlockFood from "../BlockFood/BlockFood";
 import classes from "./PopularFood.module.css";
+import { cn } from "@/lib/utils";
 
 const PopularFood: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,13 @@ const PopularFood: FC = () => {
         {loading ? (
           <h1>Загрузка...</h1>
         ) : (
-          recipes.map((recipe: recipe) => <BlockFood key={recipe.id} recipe={recipe} />)
+          recipes.slice(0, 5).map((recipe: recipe, index: number) => (
+            <div
+              key={recipe.id}
+              className={cn(index % 2 === 0 ? "2xl:-mt-[100px]" : "2xl:mt-[100px]")}>
+              <BlockFood recipe={recipe} />
+            </div>
+          ))
         )}
       </div>
       {error && <h1>{error}</h1>}

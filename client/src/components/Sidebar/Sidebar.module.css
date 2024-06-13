@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 .title {
   font-size: 18px;
@@ -49,7 +50,7 @@
 }
 
 .resetFilter {
-  padding: 15px 25px;
+  padding: 15px 10px;
   margin-top: 10px;
   border: none;
   border-radius: 10px;

@@ -26,7 +26,8 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'image' => $path,
-            'role' => $data['role']
+            'role' => $data['role'],
+            'banned' => $request['banned']
         ]);
         $contents = Storage::get(str_replace('/storage', 'public/', $path));
         $base64 = base64_encode($contents);

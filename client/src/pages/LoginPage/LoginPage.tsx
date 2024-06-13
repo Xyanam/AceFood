@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import classes from "./LoginPage.module.css";
-import Input from "../../components/UI/Input/Input";
-import PinkButton from "../../components/UI/PinkButton/PinkButton";
+import Input from "../../components/ui/Input/Input";
+import PinkButton from "../../components/ui/PinkButton/PinkButton";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { loginUser } from "../../redux/slices/userSlice";
+import { loginUser, selectUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -16,7 +16,7 @@ const LoginPage: FC = () => {
   const { isAuth } = useAuth();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { error } = useSelector((state: RootState) => state.user);
+  const { error } = useSelector(selectUser);
 
   useEffect(() => {
     if (isAuth) {
@@ -47,7 +47,7 @@ const LoginPage: FC = () => {
 
   return (
     <div className={classes.container}>
-      <h1>Вход</h1>
+      <h1 className="text-2xl">Вход</h1>
       <form className={classes.form} onSubmit={handleLogin}>
         <div className={classes.formItem}>
           <Input
@@ -55,6 +55,7 @@ const LoginPage: FC = () => {
             placeholder="Введите логин"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="font-comforta placeholder:font-multiround"
           />
           {error && error["name"] ? <p className={classes.error}>{error["name"][0]}</p> : ""}
         </div>
@@ -64,6 +65,7 @@ const LoginPage: FC = () => {
             placeholder="Введите пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="font-comforta placeholder:font-multiround"
           />
           {error && error["password"] ? <p className={classes.error}>{error["password"]}</p> : ""}
         </div>
@@ -74,7 +76,9 @@ const LoginPage: FC = () => {
         </div>
         <div className={classes.noAccount}>
           <p>У вас нет аккаунта?</p>
-          <Link to="/register">Зарегистрируйтесь</Link>
+          <Link to="/register" className="underline">
+            Зарегистрируйтесь
+          </Link>
         </div>
       </form>
     </div>

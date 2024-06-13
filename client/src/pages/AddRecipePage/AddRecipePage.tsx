@@ -3,7 +3,7 @@ import Select, { CSSObjectWithLabel } from "react-select";
 import axiosClient from "../../http/axios-client";
 import classes from "./AddRecipePage.module.css";
 import deleteIcon from "../../assets/img/delete.svg";
-import PinkButton from "../../components/UI/PinkButton/PinkButton";
+import PinkButton from "../../components/ui/PinkButton/PinkButton";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -11,6 +11,8 @@ import { addNewRecipe } from "../../redux/slices/recipeSlice";
 import { INewRecipeData } from "../../types/INewRecipe";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { selectUser } from "../../redux/slices/userSlice";
+import { cn } from "@/lib/utils";
 
 type TSelectOptions = {
   label: string;
@@ -35,7 +37,7 @@ const stylesSelect = {
 };
 
 const AddRecipePage: FC = () => {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(selectUser);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -43,7 +45,7 @@ const AddRecipePage: FC = () => {
   useEffect(() => {
     if (!isAuth) {
       navigate("/");
-      toast.warning("Чтобы добавить рецепт. вам нужно авторизоваться", {
+      toast.warning("Чтобы добавить рецепт вам нужно авторизоваться", {
         style: {
           fontSize: "18px",
           width: "400px",
@@ -72,16 +74,38 @@ const AddRecipePage: FC = () => {
   const [amountValue, setAmountValue] = useState<string[]>([]);
   const [titleRecipe, setTitleRecipe] = useState("");
   const [cookingTime, setCookingTime] = useState("");
-  const [cookingMethod, setCookingMethod] = useState("");
+  const [cookingMethodCount, setCookingMethodCount] = useState(2);
+  const [cookingMethod, setCookingMethod] = useState<string[]>(Array(cookingMethodCount).fill(""));
   const [portion, setPortion] = useState(1);
   const [image, setImage] = useState("");
   const [weight, setWeight] = useState("");
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
     const list = [...amountValue];
     list[index] = value;
     setAmountValue(list);
+  };
+
+  const handleCookingMethodChange = (value: any, index: number) => {
+    const values = [...cookingMethod];
+    values[index] = value;
+    setCookingMethod(values);
+  };
+
+  const handleAddCookingMethod = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setCookingMethod([...cookingMethod, ""]);
+    setCookingMethodCount((prev) => (prev += 1));
+  };
+
+  const handleRemoveCookingMethod = (e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+    e.preventDefault();
+    const values = [...cookingMethod];
+    values.splice(idx, 1);
+    setCookingMethod(values);
+    setCookingMethodCount((prev) => (prev -= 1));
   };
 
   const selectIngredientsChange = (index: number) => (value: TSelectOptions) => {
@@ -115,14 +139,64 @@ const AddRecipePage: FC = () => {
       setPortion((prev) => prev - 1);
     }
   };
+
   const incrementPortion = () => {
     if (portion < 12) {
       setPortion((prev) => prev + 1);
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage(imageUrl);
+    }
+  };
+
   const handleAddNewRecipe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!titleRecipe.trim()) {
+      toast.error("Введите название рецепта.");
+      return;
+    }
+    if (!kitchenValue || !categoryValue) {
+      toast.error("Выберите кухню и категорию");
+      return;
+    }
+    if (!cookingTime) {
+      toast.error("Введите время приготовления");
+      return;
+    }
+    if (selectIngredients.length < 2) {
+      toast.error("Добавьте хотя бы один ингредиент.");
+      return;
+    }
+    const nonNullIngredients = selectIngredients.filter((ingredient) => ingredient !== null);
+    if (nonNullIngredients.length < 2) {
+      toast.error("Добавьте хотя бы два ингредиента.");
+      return;
+    }
+    const nonNullMeasure = selectMeasure.filter((ingredient) => ingredient !== null);
+    if (nonNullMeasure.length < 2) {
+      toast.error("Укажите единицы измерения");
+      return;
+    }
+    if (!weight) {
+      toast.error("Укажите вес готового блюда");
+      return;
+    }
+    const validMethods = cookingMethod.filter((method) => method.trim() !== "");
+    if (validMethods.length < 2) {
+      toast.error("Укажите как минимум два этапа метода приготовления.");
+      return;
+    }
+    if (!image) {
+      toast.error("Добавьте изображение рецепта");
+      return;
+    }
+
     const formData = new FormData();
 
     const ingredients: ingredientRecipeData[] = selectIngredients.map((ingredient, index) => ({
@@ -131,12 +205,14 @@ const AddRecipePage: FC = () => {
       measure: selectMeasure[index].value,
     }));
 
+    const cookingSteps = cookingMethod.map((cook, idx) => `${idx + 1}. ${cook}`).join("\n \n");
+
     formData.append("recipeName", titleRecipe);
     formData.append("kitchen", kitchenValue.toString());
     formData.append("category", categoryValue.toString());
     formData.append("user_id", user.id);
     formData.append("cookingTime", cookingTime);
-    formData.append("cookingMethod", cookingMethod);
+    formData.append("cookingMethod", cookingSteps);
     formData.append("portion", portion.toString());
     formData.append("rating", "0");
     formData.append("ingredients", JSON.stringify(ingredients));
@@ -157,25 +233,43 @@ const AddRecipePage: FC = () => {
       weight: formData.get("weight") as string,
     };
 
-    toast.promise(
-      dispatch(addNewRecipe(recipeData)),
-      {
-        pending: "Загрузка...",
-        success:
-          "Спасибо что поделились рецептом! Сейчас он находится в обработке, как только его одобрят, вам придет оповещение",
-        error: "Ошибка добавления рецепта",
-      },
-      {
-        autoClose: 10000,
-        closeOnClick: true,
-        style: {
-          width: 450,
-          height: 90,
-          right: 50,
-          textAlign: "center",
+    toast
+      .promise(
+        dispatch(addNewRecipe(recipeData)),
+        {
+          pending: "Загрузка...",
+          success:
+            "Спасибо что поделились рецептом! Сейчас он находится в обработке, как только его одобрят, вам придет оповещение",
+          error: "Ошибка добавления рецепта",
         },
-      }
-    );
+        {
+          autoClose: 10000,
+          closeOnClick: true,
+          style: {
+            width: 450,
+            height: 90,
+            right: 50,
+            textAlign: "center",
+          },
+        }
+      )
+      .then(() => {
+        setCookingMethodCount(2);
+        setSelectCountIngredients(2);
+        setCookingMethod(["", ""]);
+        setSearchIngredient("");
+        setAmountValue([]);
+        setKitchenValue(0);
+        setSelectIngredients([null, null]);
+        setSelectMeasure([null, null]);
+        setCategoryValue(0);
+        setTitleRecipe("");
+        setCookingTime("");
+        setPortion(1);
+        setImage("");
+        setWeight("");
+        setPreviewImage(null);
+      });
   };
 
   useEffect(() => {
@@ -192,9 +286,7 @@ const AddRecipePage: FC = () => {
 
   useEffect(() => {
     axiosClient.get(`/ingredients?title=${searchIngredient}`).then((response) => {
-      if (searchIngredient.length > 1) {
-        setSelectIngredientsOptions(response.data);
-      }
+      setSelectIngredientsOptions(response.data);
     });
   }, [searchIngredient]);
 
@@ -208,7 +300,7 @@ const AddRecipePage: FC = () => {
       </div>
       <div className={classes.container}>
         <form
-          className={classes.form}
+          className={cn(classes.form, "mt-10")}
           encType="multipart/form-data"
           onSubmit={(e) => handleAddNewRecipe(e)}>
           <div className={classes.formItem}>
@@ -251,12 +343,18 @@ const AddRecipePage: FC = () => {
               type="number"
               placeholder="Минут(А)(Ы)"
               value={cookingTime}
-              onChange={(e) => setCookingTime(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) {
+                  setCookingTime(value);
+                }
+              }}
               className={classes.input}
+              min={0}
             />
           </div>
           <div className={classes.formItem}>
-            <p>4. Выберите ингредиенты</p>
+            <p className="mb-2">4. Выберите ингредиенты</p>
             <>
               {selectIngredients.map((_, index) => (
                 <div className={classes.ingredientsSelect} key={index}>
@@ -266,16 +364,23 @@ const AddRecipePage: FC = () => {
                     onChange={selectIngredientsChange(index)}
                     options={selectIngredientsOptions}
                     onInputChange={(e) => setSearchIngredient(e)}
-                    placeholder="Укажите ингредиент"
+                    placeholder="Ингредиент"
                     noOptionsMessage={({ inputValue }) =>
                       !inputValue ? "Не найдено" : "Не найдено"
                     }
                   />
-                  <input
-                    type="number"
-                    className={classes.ingredientInput}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+                  {selectMeasure[index]?.label !== "По вкусу" ? (
+                    <input
+                      type="number"
+                      className={classes.ingredientInput}
+                      min={0}
+                      onChange={(e) => {
+                        handleInputChange(e, index);
+                      }}
+                    />
+                  ) : (
+                    <div className="w-16"></div>
+                  )}
                   <Select
                     styles={stylesSelect}
                     value={selectMeasure[index]}
@@ -324,15 +429,43 @@ const AddRecipePage: FC = () => {
               6. Опишите пошагово
               <br /> способ приготовления
             </p>
-            <textarea
-              className={classes.cookingMethod}
-              value={cookingMethod}
-              onChange={(e) => setCookingMethod(e.target.value)}
-              placeholder="Ваше описание"
-            />
+            <div className={classes.cookingMethodArea}>
+              {cookingMethod.map((_, idx) => (
+                <div className={classes.textAreaCooking} key={idx}>
+                  <span className={classes.cookingMethodStep}>{idx + 1}</span>
+                  <textarea
+                    className={cn(classes.cookingMethod, "font-comforta")}
+                    value={cookingMethod[idx]}
+                    onChange={(e) => handleCookingMethodChange(e.target.value, idx)}
+                    placeholder={`Описание ${idx + 1} этапа`}
+                  />
+                  {cookingMethodCount > 2 && idx + 1 === cookingMethod.length && (
+                    <div
+                      className={classes.deleteIcon}
+                      onClick={(e) => handleRemoveCookingMethod(e, idx)}>
+                      <img src={deleteIcon} alt="delete" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button onClick={handleAddCookingMethod} className={classes.addIngredient}>
+              Добавить этап
+            </button>
           </div>
           <div className={classes.formItem}>
-            <input type="file" onChange={(e: any) => setImage(e.target.files[0])} />
+            <input
+              type="file"
+              onChange={(e: any) => {
+                setImage(e.target.files[0]);
+                handleImageChange(e);
+              }}
+              className={classes.imageInput}
+              accept="image/*"
+            />
+            {previewImage && (
+              <img src={previewImage} alt="Preview" className={classes.previewImage} />
+            )}
           </div>
           <div className={classes.formItem}>
             <PinkButton fontSize="16px" width="300px">

@@ -34,6 +34,7 @@
   border: 1px solid black;
   outline: none;
   border-radius: 10px;
+  font-family: "Comfortaa";
 }
 .textarea::placeholder {
   font-family: "Multiround";
@@ -48,4 +49,10 @@
 .registerComment {
   margin-top: 40px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 453px) {
+  .textarea {
+    width: 250px;
+  }
 }

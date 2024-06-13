@@ -32,8 +32,11 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            "name" => 'Неверное имя пользователя или пароль',
-            'password' => 'Поле пароль обязательное'
+            'name.required' => 'Введите имя пользователя',
+            'name.string' => 'Имя пользователя должно быть строкой',
+            'name.exists' => 'Неверное имя пользователя или пароль',
+
+            'password.required' => 'Введите пароль'
         ];
     }
 }

@@ -1,20 +1,19 @@
-import React, { ChangeEvent, ChangeEventHandler, FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import classes from "./RegisterPage.module.css";
-import foodLeft from "../../assets/img/loginfoodleft.png";
-import foodRight from "../../assets/img/loginfoodright.png";
-import Input from "../../components/UI/Input/Input";
-import PinkButton from "../../components/UI/PinkButton/PinkButton";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { registerUser } from "../../redux/slices/userSlice";
+import Input from "../../components/ui/Input/Input";
+import PinkButton from "../../components/ui/PinkButton/PinkButton";
+import { useAppDispatch } from "../../redux/store";
+import { registerUser, selectUser } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DataRegister } from "../../services/AuthService";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
-  const { error } = useSelector((state: RootState) => state.user);
+  const { error } = useSelector(selectUser);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -23,6 +22,8 @@ const LoginPage: FC = () => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
   const [image, setImage] = useState<string | Blob>("");
+  const [isAccept, setIsAccept] = useState(false);
+
   useEffect(() => {
     if (isAuth) {
       navigate("/");
@@ -30,7 +31,9 @@ const LoginPage: FC = () => {
   }, []);
 
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
+
     formData.append("name", name);
     formData.append("email", email);
     formData.append("password", password);
@@ -44,6 +47,7 @@ const LoginPage: FC = () => {
       password_confirmation: formData.get("password_confirmation") as string,
       profilePicture: formData.get("profilePicture") as File,
       role: "user",
+      banned: 0,
     };
 
     e.preventDefault();
@@ -65,7 +69,7 @@ const LoginPage: FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.formBlock}>
-        <h1>Регистрация</h1>
+        <h1 className="text-2xl">Регистрация</h1>
         <form className={classes.form} onSubmit={handleRegister}>
           <div className={classes.formItem}>
             <Input
@@ -73,6 +77,7 @@ const LoginPage: FC = () => {
               placeholder="Введите логин"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="font-comforta placeholder:font-multiround"
             />
             {error && error["name"] ? <p className={classes.error}>{error["name"][0]}</p> : ""}
           </div>
@@ -82,6 +87,7 @@ const LoginPage: FC = () => {
               placeholder="Введите email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="font-comforta placeholder:font-multiround"
             />
             {error && error["email"] ? <p className={classes.error}>{error["email"][0]}</p> : ""}
           </div>
@@ -91,6 +97,7 @@ const LoginPage: FC = () => {
               placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="font-comforta placeholder:font-multiround"
             />
             {error && error["password"] ? (
               <p className={classes.error}>{error["password"][0]}</p>
@@ -104,6 +111,7 @@ const LoginPage: FC = () => {
               placeholder="Повторите пароль"
               value={password_confirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
+              className="font-comforta placeholder:font-multiround"
             />
           </div>
           <div className={classes.formItem}>
@@ -111,16 +119,42 @@ const LoginPage: FC = () => {
               type="file"
               accept="image/*"
               onChange={(e: any) => setImage(e.target.files[0])}
+              className={classes.imageInput}
             />
+            {error && error["profilePicture"] ? (
+              <p className={classes.error}>{error["profilePicture"][0]}</p>
+            ) : (
+              ""
+            )}
           </div>
           <div className={classes.formItem}>
-            <PinkButton width="350px" height="50px" fontSize="20px">
+            <div className="items-top flex space-x-2">
+              <Checkbox id="terms1" checked={isAccept} onCheckedChange={setIsAccept} />
+              <div className="grid gap-1.5 leading-none">
+                <label
+                  htmlFor="terms1"
+                  className="text-sm font-comforta leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Я подтверждаю согласие на обработку персональных данных и ознакомлением с
+                  <a
+                    href="https://jmp.sh/pAInPTIx"
+                    target="_blank"
+                    className="underline ml-1 font-medium">
+                    политикой конфиденциальности
+                  </a>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div className={classes.formItem}>
+            <PinkButton width="350px" height="50px" fontSize="20px" disabled={!isAccept}>
               Зарегистрироваться
             </PinkButton>
           </div>
           <div className={classes.noAccount}>
             <p>У вас есть аккаунт?</p>
-            <Link to="/login">Авторизируйтесь</Link>
+            <Link to="/login" className="underline">
+              Авторизируйтесь
+            </Link>
           </div>
         </form>
       </div>

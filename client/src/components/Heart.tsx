@@ -25,7 +25,9 @@ const Heart = ({ onClick, recipe, liked, likeCount }: HeartProps) => {
   };
 
   return (
-    <div className={`heart ${!isAuth && "disabled"}`} onClick={onClick}>
+    <div
+      className={`heart ${(!isAuth || recipe.moderated === "pending") && "disabled"}`}
+      onClick={onClick}>
       <svg
         fill={`${liked ? "red" : "black"}`}
         width="60px"

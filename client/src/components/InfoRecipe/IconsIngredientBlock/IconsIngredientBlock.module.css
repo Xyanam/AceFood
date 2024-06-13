@@ -75,4 +75,25 @@
 .kbzu {
   color: gray;
   font-size: 14px;
+  margin-top: 15px;
+}
+
+@media (max-width: 1000px) {
+  .icons {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 561px) {
+  .icons {
+    align-items: center;
+    justify-content: center;
+  }
+  .ingredients {
+    columns: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
